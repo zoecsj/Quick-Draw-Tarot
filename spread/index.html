@@ -46,35 +46,28 @@
     <script src="/Quick-Draw-Tarot/assets/spread.js"></script>
     <script src="/Quick-Draw-Tarot/assets/ui.js"></script>
     <script>
-      const CARD_DETAILS = {
-        "the-fool": {
-          description: "A leap of faith invites you into a fresh chapter.",
-          keywords: "Beginnings · Freedom · Curiosity · Trust · Adventure",
-          upright: "The Fool encourages you to move forward with openness and wonder. Progress comes from trusting your inner yes.",
-          reversed: "You may be hesitating out of fear or rushing without grounding. Pause long enough to align your risk with your values.",
-          reflection: "What new path are you ready to step onto, even without every answer?"
-        },
-        "ace-of-cups": {
-          description: "Emotional renewal opens when you receive life with softness.",
-          keywords: "Love · Intuition · Healing · Openness · Compassion",
-          upright: "Your heart is ready for a sincere beginning in love, creativity, or spiritual connection. Let tenderness lead your next step.",
-          reversed: "Emotional overwhelm or guardedness may be blocking your flow. Make space to process your feelings before reaching outward.",
-          reflection: "Where can you allow more emotional honesty to refill your inner cup?"
-        },
-        "two-of-swords": {
-          description: "Clarity appears when you pause and face what you already know.",
-          keywords: "Stalemate · Choice · Boundaries · Balance · Insight",
-          upright: "You are weighing options carefully and protecting your peace while you decide. A balanced perspective will reveal the path forward.",
-          reversed: "Avoidance or indecision may be creating extra tension. Name the truth directly so momentum can return.",
-          reflection: "What truth are you ready to acknowledge so your next choice feels clear?"
-        }
-      };
-
       function render() {
-        window.TarotUI.renderSpreadSummary("#spread-summary-grid", CARD_DETAILS);
+        fetch('/Quick-Draw-Tarot/data/cards.json')
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (dataset) {
+            const details = {};
+            dataset.cards.forEach(function (card) {
+              details[card.slug] = {
+                description: card.description,
+                keywords: card.keywords.join(' · '),
+                upright: card.upright,
+                reversed: card.reversed,
+                reflection: card.prompt,
+              };
+            });
+
+            window.TarotUI.renderSpreadSummary('#spread-summary-grid', details);
+          });
       }
 
-      document.getElementById("clear-spread").addEventListener("click", function () {
+      document.getElementById('clear-spread').addEventListener('click', function () {
         window.TarotSpread.clearSpread();
         render();
       });
