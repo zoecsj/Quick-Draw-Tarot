@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Fool | Quick Draw Tarot</title>
+    <link rel="stylesheet" href="/Quick-Draw-Tarot/main.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="nav">
+        <a href="/Quick-Draw-Tarot/">Quick Draw Tarot</a>
+        <div class="nav-links">
+          <a href="/Quick-Draw-Tarot/">Home</a>
+          <a href="/Quick-Draw-Tarot/spread/">Spreads</a>
+          <a href="/Quick-Draw-Tarot/cards/">Cards</a>
+          <a href="/Quick-Draw-Tarot/cards/major_arcana/">Major Arcana</a>
+          <a href="/Quick-Draw-Tarot/guide">How to Read</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="panel">
+          <span class="tag">Major Arcana</span>
+          <h1>The Fool</h1>
+          <p>A leap of faith invites you into a fresh chapter.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="grid">
+          <article class="card">
+            <h3>Keywords</h3>
+            <p>Beginnings · Freedom · Curiosity · Trust · Adventure</p>
+          </article>
+          <article class="card">
+            <h3>Upright</h3>
+            <p>The Fool encourages you to move forward with openness and wonder. Progress comes from trusting your inner yes.</p>
+          </article>
+          <article class="card">
+            <h3>Reversed</h3>
+            <p>You may be hesitating out of fear or rushing without grounding. Pause long enough to align your risk with your values.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="panel">
+          <h2>Reflection</h2>
+          <p>What new path are you ready to step onto, even without every answer?</p>
+        </div>
+      </section>
+
+      <section class="section" id="spread-panel"></section>
+    </main>
+
+    <script type="application/json" id="card-meta">
+      { "slug": "the-fool", "title": "The Fool", "path": "/cards/the-fool.html" }
+    </script>
+    <script src="/Quick-Draw-Tarot/assets/spread.js"></script>
+    <script>
+      window.TarotSpread.renderSpreadPanel("#spread-panel");
+    </script>
+  </body>
+</html>

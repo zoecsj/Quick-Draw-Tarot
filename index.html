@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quick Draw Tarot</title>
+    <link rel="stylesheet" href="/Quick-Draw-Tarot/main.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="nav">
+        <a href="/Quick-Draw-Tarot/">Quick Draw Tarot</a>
+        <div class="nav-links">
+          <a href="/Quick-Draw-Tarot/">Home</a>
+          <a href="/Quick-Draw-Tarot/spread/">Spreads</a>
+          <a href="/Quick-Draw-Tarot/cards/">Cards</a>
+          <a href="/Quick-Draw-Tarot/cards/major_arcana/">Major Arcana</a>
+          <a href="/Quick-Draw-Tarot/guide">How to Read</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-card">
+          <span class="tag">NFC Tarot Deck</span>
+          <h1>Tap a card to read it.</h1>
+          <p>Tap a card to read it. Start a spread to save Past/Present/Future.</p>
+          <div class="list">
+            <a class="button" href="/Quick-Draw-Tarot/cards/">Browse cards</a>
+            <a class="button secondary" href="/Quick-Draw-Tarot/spread/">View spread</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="home-spread-status"></section>
+
+      <footer class="footer">Quick Draw Tarot works with NFC tags that open card URLs directly in your browser.</footer>
+    </main>
+
+    <script src="/Quick-Draw-Tarot/assets/spread.js"></script>
+    <script src="/Quick-Draw-Tarot/assets/ui.js"></script>
+    <script>
+      window.TarotUI.renderHomeSpreadStatus("#home-spread-status");
+    </script>
+  </body>
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spread Summary | Quick Draw Tarot</title>
+    <link rel="stylesheet" href="/Quick-Draw-Tarot/main.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="nav">
+        <a href="/Quick-Draw-Tarot/">Quick Draw Tarot</a>
+        <div class="nav-links">
+          <a href="/Quick-Draw-Tarot/">Home</a>
+          <a href="/Quick-Draw-Tarot/spread/">Spreads</a>
+          <a href="/Quick-Draw-Tarot/cards/">Cards</a>
+          <a href="/Quick-Draw-Tarot/cards/major_arcana/">Major Arcana</a>
+          <a href="/Quick-Draw-Tarot/guide">How to Read</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="panel">
+          <span class="tag">Past / Present / Future</span>
+          <h1>Spread Summary</h1>
+          <p>Your three-card spread is stored in localStorage and updates each time a card is added.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="grid" id="spread-summary-grid"></div>
+      </section>
+
+      <section class="section">
+        <div class="panel">
+          <div class="list">
+            <button class="button" type="button" id="clear-spread">Clear spread</button>
+            <a class="button secondary" href="/Quick-Draw-Tarot/cards/">Browse cards</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/Quick-Draw-Tarot/assets/spread.js"></script>
+    <script src="/Quick-Draw-Tarot/assets/ui.js"></script>
+    <script>
+      const CARD_DETAILS = {
+        "the-fool": {
+          description: "A leap of faith invites you into a fresh chapter.",
+          keywords: "Beginnings · Freedom · Curiosity · Trust · Adventure",
+          upright: "The Fool encourages you to move forward with openness and wonder. Progress comes from trusting your inner yes.",
+          reversed: "You may be hesitating out of fear or rushing without grounding. Pause long enough to align your risk with your values.",
+          reflection: "What new path are you ready to step onto, even without every answer?"
+        },
+        "ace-of-cups": {
+          description: "Emotional renewal opens when you receive life with softness.",
+          keywords: "Love · Intuition · Healing · Openness · Compassion",
+          upright: "Your heart is ready for a sincere beginning in love, creativity, or spiritual connection. Let tenderness lead your next step.",
+          reversed: "Emotional overwhelm or guardedness may be blocking your flow. Make space to process your feelings before reaching outward.",
+          reflection: "Where can you allow more emotional honesty to refill your inner cup?"
+        },
+        "two-of-swords": {
+          description: "Clarity appears when you pause and face what you already know.",
+          keywords: "Stalemate · Choice · Boundaries · Balance · Insight",
+          upright: "You are weighing options carefully and protecting your peace while you decide. A balanced perspective will reveal the path forward.",
+          reversed: "Avoidance or indecision may be creating extra tension. Name the truth directly so momentum can return.",
+          reflection: "What truth are you ready to acknowledge so your next choice feels clear?"
+        }
+      };
+
+      function render() {
+        window.TarotUI.renderSpreadSummary("#spread-summary-grid", CARD_DETAILS);
+      }
+
+      document.getElementById("clear-spread").addEventListener("click", function () {
+        window.TarotSpread.clearSpread();
+        render();
+      });
+
+      render();
+    </script>
+  </body>
+</html>
