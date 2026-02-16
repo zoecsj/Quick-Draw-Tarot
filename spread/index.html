@@ -29,6 +29,8 @@
         </div>
       </section>
 
+      <section class="section" id="spread-meta-panels"></section>
+
       <section class="section">
         <div class="grid" id="spread-summary-grid"></div>
       </section>
@@ -47,8 +49,7 @@
     <script src="/Quick-Draw-Tarot/assets/spread.js"></script>
     <script src="/Quick-Draw-Tarot/assets/ui.js"></script>
     <script>
-      function updateSpreadHeader() {
-        const spread = window.TarotSpread.getSpread();
+      function updateSpreadHeader(spread) {
         const tag = document.getElementById('spread-type-tag');
         const description = document.getElementById('spread-type-description');
 
@@ -63,7 +64,67 @@
         description.textContent = 'This spread is stored in localStorage and updates each time a card is added.';
       }
 
+      function renderMetaPanels(spread) {
+        const container = document.getElementById('spread-meta-panels');
+        if (!spread) {
+          container.innerHTML = '';
+          return;
+        }
+
+        const meta = spread.meta || {};
+        const canEditIntention = !window.TarotSpread.hasPlacedCards(spread);
+
+        let html = '';
+
+        if (meta.intention) {
+          html += `
+            <div class="panel">
+              <h2>Intention</h2>
+              <p>${meta.intention}</p>
+            </div>
+          `;
+        }
+
+        if (spread.type === 'decision' && (meta.optionA || meta.optionB)) {
+          html += `
+            <div class="panel">
+              <h2>Decision Focus</h2>
+              <p><strong>Option A:</strong> ${meta.optionA || ''}</p>
+              <p><strong>Option B:</strong> ${meta.optionB || ''}</p>
+            </div>
+          `;
+        }
+
+        if (canEditIntention) {
+          html += `
+            <div class="panel">
+              <h2>Edit intention</h2>
+              <div class="list">
+                <label for="edit-intention-input">Intention (optional)</label>
+                <input id="edit-intention-input" type="text" placeholder="What do you want clarity on today?" value="${meta.intention || ''}" />
+                <button class="button" type="button" id="save-intention">Save</button>
+              </div>
+            </div>
+          `;
+        }
+
+        container.innerHTML = html;
+
+        const saveButton = document.getElementById('save-intention');
+        if (saveButton) {
+          saveButton.addEventListener('click', function () {
+            const value = document.getElementById('edit-intention-input').value;
+            window.TarotSpread.updateMeta({ intention: value });
+            render();
+          });
+        }
+      }
+
       function render() {
+        const spread = window.TarotSpread.getSpread();
+        updateSpreadHeader(spread);
+        renderMetaPanels(spread);
+
         fetch('/Quick-Draw-Tarot/data/cards.json')
           .then(function (response) {
             return response.json();
@@ -80,7 +141,6 @@
               };
             });
 
-            updateSpreadHeader();
             window.TarotUI.renderSpreadSummary('#spread-summary-grid', details);
           });
       }
@@ -91,10 +151,7 @@
       });
 
       document.getElementById('start-new-spread').addEventListener('click', function () {
-        const current = window.TarotSpread.getSpread();
-        const type = current ? current.type : 'past-present-future';
         window.TarotSpread.clearSpread();
-        window.TarotSpread.startSpread(type);
         render();
       });
 

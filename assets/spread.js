@@ -76,6 +76,27 @@
     return SPREAD_TYPES[type] || null;
   }
 
+  function normalizeMeta(type, meta) {
+    const safeMeta = meta && typeof meta === "object" ? meta : {};
+    const normalized = {};
+
+    if (typeof safeMeta.intention === "string") {
+      const trimmedIntention = safeMeta.intention.trim();
+      if (trimmedIntention) {
+        normalized.intention = trimmedIntention;
+      }
+    }
+
+    if (type === "decision") {
+      const optionA = typeof safeMeta.optionA === "string" ? safeMeta.optionA.trim() : "";
+      const optionB = typeof safeMeta.optionB === "string" ? safeMeta.optionB.trim() : "";
+      if (optionA) normalized.optionA = optionA;
+      if (optionB) normalized.optionB = optionB;
+    }
+
+    return normalized;
+  }
+
   function getSpread() {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
@@ -95,6 +116,7 @@
       return {
         type: parsed.type,
         createdAt: parsed.createdAt || new Date().toISOString(),
+        meta: normalizeMeta(parsed.type, parsed.meta || {}),
         positions: normalizedPositions,
       };
     } catch (error) {
@@ -107,9 +129,15 @@
     return spread;
   }
 
-  function startSpread(type) {
-    const spreadType = getSpreadType(type || "past-present-future");
+  function startSpread(type, meta) {
+    const spreadTypeId = type || "past-present-future";
+    const spreadType = getSpreadType(spreadTypeId);
     if (!spreadType) {
+      return null;
+    }
+
+    const normalizedMeta = normalizeMeta(spreadTypeId, meta || {});
+    if (spreadTypeId === "decision" && (!normalizedMeta.optionA || !normalizedMeta.optionB)) {
       return null;
     }
 
@@ -119,12 +147,22 @@
     });
 
     const spread = {
-      type: type || "past-present-future",
+      type: spreadTypeId,
       createdAt: new Date().toISOString(),
+      meta: normalizedMeta,
       positions,
     };
 
     return saveSpread(spread);
+  }
+
+  function updateMeta(metaUpdates) {
+    const spread = getSpread();
+    if (!spread) return false;
+
+    spread.meta = normalizeMeta(spread.type, Object.assign({}, spread.meta || {}, metaUpdates || {}));
+    saveSpread(spread);
+    return true;
   }
 
   function clearSpread() {
@@ -164,6 +202,11 @@
       placed,
       total: positions.length,
     };
+  }
+
+  function hasPlacedCards(spread) {
+    const progress = getProgress(spread);
+    return progress.placed > 0;
   }
 
   function getPositionLabel(type, key) {
@@ -251,26 +294,32 @@
     html += '<p data-role="spread-message" class="nfc-progress"></p>';
 
     if (!spread) {
-      html += "<p>No spread is active yet.</p>";
+      html += '<p>Start a Spread</p>';
       html += '<div class="list">';
-      html += `<label for="spread-type-select">Spread type</label>`;
+      html += '<label for="spread-type-select">Spread type</label>';
       html += `<select id="spread-type-select">${spreadTypeOptions("past-present-future")}</select>`;
+      html += '<label for="spread-intention">Intention (optional)</label>';
+      html += '<input id="spread-intention" type="text" placeholder="What do you want clarity on today?" />';
+      html += '<p>This will appear at the top of your spread summary.</p>';
+      html += '<div id="decision-meta-fields"></div>';
       html += '<button type="button" class="button" data-action="start">Start Spread</button>';
       html += "</div>";
     } else {
       const spreadType = getSpreadType(spread.type);
       const spreadLabel = spreadType ? spreadType.label : spread.type;
+      const progress = getProgress(spread);
       html += `<p>Spread: ${spreadLabel}</p>`;
+      if (spread.meta && spread.meta.intention) {
+        html += `<p>Intention: ${spread.meta.intention}</p>`;
+      }
 
       if (!open) {
         html += "<p>Spread complete.</p>";
-        const progress = getProgress(spread);
         html += `<p>${progress.placed} of ${progress.total} cards placed.</p>`;
         html += `<a class="button secondary" href="${BASE_PATH}/spread/">View spread summary</a> `;
         html += '<button type="button" class="button" data-action="restart">Start new spread</button> ';
         html += '<button type="button" class="button secondary" data-action="end">End spread</button>';
       } else {
-        const progress = getProgress(spread);
         html += `<p>Spread in progress: Next position = ${getPositionLabel(spread.type, open)}</p>`;
         html += `<p>${progress.placed} of ${progress.total} cards placed.</p>`;
         html += '<button type="button" class="button" data-action="add">Add this card</button> ';
@@ -287,11 +336,67 @@
     const endButton = container.querySelector('[data-action="end"]');
     const restartButton = container.querySelector('[data-action="restart"]');
 
+    function updateDecisionFieldsAndStartState() {
+      const typeSelect = container.querySelector('#spread-type-select');
+      const metaFields = container.querySelector('#decision-meta-fields');
+      const start = container.querySelector('[data-action="start"]');
+      if (!typeSelect || !metaFields || !start) return;
+
+      if (typeSelect.value === 'decision') {
+        if (!container.querySelector('#decision-option-a')) {
+          metaFields.innerHTML = [
+            '<label for="decision-option-a">Option A</label>',
+            '<input id="decision-option-a" type="text" placeholder="Name Option A" />',
+            '<label for="decision-option-b">Option B</label>',
+            '<input id="decision-option-b" type="text" placeholder="Name Option B" />'
+          ].join('');
+        }
+
+        const optionA = container.querySelector('#decision-option-a');
+        const optionB = container.querySelector('#decision-option-b');
+        const filled = optionA && optionA.value.trim() && optionB && optionB.value.trim();
+        start.disabled = !filled;
+      } else {
+        metaFields.innerHTML = '';
+        start.disabled = false;
+      }
+    }
+
     if (startButton) {
+      const typeSelect = container.querySelector('#spread-type-select');
+      const intentionInput = container.querySelector('#spread-intention');
+
+      if (typeSelect) {
+        typeSelect.addEventListener('change', updateDecisionFieldsAndStartState);
+      }
+
+      container.addEventListener('input', function () {
+        updateDecisionFieldsAndStartState();
+      });
+
+      updateDecisionFieldsAndStartState();
+
       startButton.addEventListener("click", function () {
-        const select = container.querySelector("#spread-type-select");
-        const spreadType = select ? select.value : "past-present-future";
-        startSpread(spreadType);
+        const spreadType = typeSelect ? typeSelect.value : "past-present-future";
+        const meta = {};
+
+        if (intentionInput && intentionInput.value.trim()) {
+          meta.intention = intentionInput.value.trim();
+        }
+
+        if (spreadType === 'decision') {
+          const optionA = container.querySelector('#decision-option-a');
+          const optionB = container.querySelector('#decision-option-b');
+          meta.optionA = optionA ? optionA.value.trim() : '';
+          meta.optionB = optionB ? optionB.value.trim() : '';
+        }
+
+        const started = startSpread(spreadType, meta);
+        if (!started) {
+          setMessage(container, 'Please complete required fields before starting this spread.');
+          return;
+        }
+
         renderSpreadPanel(selector);
         setMessage(container, "Spread started.");
       });
@@ -315,12 +420,9 @@
 
     if (restartButton) {
       restartButton.addEventListener("click", function () {
-        const current = getSpread();
-        const spreadType = current ? current.type : "past-present-future";
         clearSpread();
-        startSpread(spreadType);
         renderSpreadPanel(selector);
-        setMessage(container, "Started a new spread.");
+        setMessage(container, "Start a new spread below.");
       });
     }
   }
@@ -331,6 +433,7 @@
     SPREAD_TYPES,
     getSpread,
     startSpread,
+    updateMeta,
     clearSpread,
     nextOpenPosition,
     addCardToSpread,
@@ -338,6 +441,7 @@
     getPositionLabel,
     getPositionList,
     getProgress,
+    hasPlacedCards,
     renderSpreadPanel,
     capitalize,
   };
