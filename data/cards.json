@@ -1,0 +1,790 @@
+{
+  "version": "1.0",
+  "source": "ChatGPT-generated meanings (concise, template-friendly)",
+  "cards": [
+    {
+      "slug": "the-fool",
+      "title": "The Fool",
+      "tag": "Major Arcana",
+      "description": "Fresh beginnings, open roads, and trust before proof.",
+      "keywords": ["New start", "Leap of faith", "Curiosity", "Freedom", "Innocence"],
+      "upright": "Say yes to the new path. Learn as you go, and keep your heart open.",
+      "reversed": "Risk without a plan can backfire. Slow down and check what you’re ignoring.",
+      "prompt": "Where are you being called to begin, even if you’re not “ready”?"
+    },
+    {
+      "slug": "the-magician",
+      "title": "The Magician",
+      "tag": "Major Arcana",
+      "description": "Focused will, skillful action, and turning ideas into reality.",
+      "keywords": ["Manifestation", "Skill", "Power", "Resourcefulness", "Action"],
+      "upright": "You have what you need—use it with intention. Take the first concrete step.",
+      "reversed": "Scattered effort or manipulation. Get clear on motives and simplify your approach.",
+      "prompt": "What tool or talent are you underusing right now?"
+    },
+    {
+      "slug": "the-high-priestess",
+      "title": "The High Priestess",
+      "tag": "Major Arcana",
+      "description": "Quiet knowing, intuition, and what’s sensed but not said.",
+      "keywords": ["Intuition", "Mystery", "Inner voice", "Subconscious", "Wisdom"],
+      "upright": "Trust your instincts and listen more than you speak. Let answers unfold.",
+      "reversed": "You may be ignoring your gut. Make space for stillness and honesty.",
+      "prompt": "What do you already know, even if you don’t have “evidence”?"
+    },
+    {
+      "slug": "the-empress",
+      "title": "The Empress",
+      "tag": "Major Arcana",
+      "description": "Nurturing abundance, creativity, and growth that feels alive.",
+      "keywords": ["Abundance", "Nurture", "Creativity", "Comfort", "Fertility"],
+      "upright": "Tend what you love—relationships, projects, and your body. Growth follows care.",
+      "reversed": "Overgiving or neglecting yourself. Rebalance support and boundaries.",
+      "prompt": "Where do you need more care: home, body, or heart?"
+    },
+    {
+      "slug": "the-emperor",
+      "title": "The Emperor",
+      "tag": "Major Arcana",
+      "description": "Structure, leadership, and stability built with clear boundaries.",
+      "keywords": ["Authority", "Order", "Stability", "Boundaries", "Discipline"],
+      "upright": "Create a plan and follow it. Take responsibility and lead with clarity.",
+      "reversed": "Control is tightening too far. Loosen rigidity and invite collaboration.",
+      "prompt": "What boundary would make your life easier if you enforced it?"
+    },
+    {
+      "slug": "the-hierophant",
+      "title": "The Hierophant",
+      "tag": "Major Arcana",
+      "description": "Tradition, teaching, and the wisdom of proven systems.",
+      "keywords": ["Tradition", "Guidance", "Beliefs", "Institutions", "Learning"],
+      "upright": "Seek mentorship or trusted methods. Commit to practice, not shortcuts.",
+      "reversed": "Question the rules and update what no longer fits. Make your own path.",
+      "prompt": "Which “rule” do you follow out of habit rather than choice?"
+    },
+    {
+      "slug": "the-lovers",
+      "title": "The Lovers",
+      "tag": "Major Arcana",
+      "description": "Choice, connection, and alignment between heart and values.",
+      "keywords": ["Union", "Values", "Partnership", "Harmony", "Decision"],
+      "upright": "Choose what matches your values. Healthy bonds require honesty and reciprocity.",
+      "reversed": "Misalignment or temptation. Clarify what you want and what you’ll tolerate.",
+      "prompt": "What choice becomes obvious if you prioritize your values?"
+    },
+    {
+      "slug": "the-chariot",
+      "title": "The Chariot",
+      "tag": "Major Arcana",
+      "description": "Determination, forward motion, and winning the inner tug-of-war.",
+      "keywords": ["Drive", "Control", "Victory", "Discipline", "Momentum"],
+      "upright": "Commit and move. Direction plus willpower gets results fast.",
+      "reversed": "You may be pushing without steering. Slow down and recalibrate your goal.",
+      "prompt": "Where are you forcing progress instead of directing it?"
+    },
+    {
+      "slug": "strength",
+      "title": "Strength",
+      "tag": "Major Arcana",
+      "description": "Quiet courage, compassionate control, and power guided by heart.",
+      "keywords": ["Courage", "Patience", "Compassion", "Inner strength", "Confidence"],
+      "upright": "Stay steady and kind. True strength is consistent, not loud.",
+      "reversed": "Doubt or reactivity is draining you. Regroup and rebuild confidence gently.",
+      "prompt": "Where can you respond softly instead of proving something?"
+    },
+    {
+      "slug": "the-hermit",
+      "title": "The Hermit",
+      "tag": "Major Arcana",
+      "description": "Solitude with purpose and guidance found within.",
+      "keywords": ["Introspection", "Wisdom", "Solitude", "Search", "Guidance"],
+      "upright": "Step back to reflect. Your clarity comes from quiet focus.",
+      "reversed": "Isolation may be turning unhelpful. Reconnect or ask for support.",
+      "prompt": "What truth appears when you stop distracting yourself?"
+    },
+    {
+      "slug": "wheel-of-fortune",
+      "title": "Wheel of Fortune",
+      "tag": "Major Arcana",
+      "description": "The cycle turns—timing shifts, and the story moves with it.",
+      "keywords": ["Change", "Cycles", "Fate", "Timing", "Turning point"],
+      "upright": "Expect movement and shifting luck. Adapt quickly and ride momentum.",
+      "reversed": "Resistance creates setbacks. Focus on what you can control.",
+      "prompt": "What is clearly changing—even if you don’t love it?"
+    },
+    {
+      "slug": "justice",
+      "title": "Justice",
+      "tag": "Major Arcana",
+      "description": "Truth, accountability, and consequences that balance the scales.",
+      "keywords": ["Fairness", "Truth", "Accountability", "Integrity", "Balance"],
+      "upright": "Make the honest call. Take responsibility and choose what’s fair.",
+      "reversed": "Bias or avoidance is present. Correct course before it costs more.",
+      "prompt": "Where do you need to be brutally honest with yourself?"
+    },
+    {
+      "slug": "the-hanged-man",
+      "title": "The Hanged Man",
+      "tag": "Major Arcana",
+      "description": "Pause, surrender, and seeing the situation from a new angle.",
+      "keywords": ["Perspective", "Surrender", "Pause", "Reframe", "Letting go"],
+      "upright": "Stop pushing. A new perspective unlocks the next move.",
+      "reversed": "Stagnation or refusal to shift. Release what’s keeping you stuck.",
+      "prompt": "What changes if you stop trying to control the outcome?"
+    },
+    {
+      "slug": "death",
+      "title": "Death",
+      "tag": "Major Arcana",
+      "description": "Endings with purpose—transformation and clean beginnings.",
+      "keywords": ["Transformation", "Endings", "Release", "Renewal", "Closure"],
+      "upright": "Let the old end. You’re making room for something better suited.",
+      "reversed": "Fear of change prolongs pain. Choose closure and move forward.",
+      "prompt": "What are you holding onto that already ended?"
+    },
+    {
+      "slug": "temperance",
+      "title": "Temperance",
+      "tag": "Major Arcana",
+      "description": "Balance in motion—blending extremes into something workable.",
+      "keywords": ["Moderation", "Harmony", "Patience", "Integration", "Healing"],
+      "upright": "Simplify and stabilize. Small adjustments create lasting alignment.",
+      "reversed": "Too much/too little energy. Reset your routines and restore balance.",
+      "prompt": "What habit needs “less intensity, more consistency”?"
+    },
+    {
+      "slug": "the-devil",
+      "title": "The Devil",
+      "tag": "Major Arcana",
+      "description": "Attachment, temptation, and the chains we can remove.",
+      "keywords": ["Attachment", "Temptation", "Control", "Addiction", "Shadow"],
+      "upright": "Notice what owns you—habits, fear, or power dynamics. Choose awareness.",
+      "reversed": "Release and reclaiming power. You’re ready to break a pattern.",
+      "prompt": "What would change if you stopped negotiating with your worst habit?"
+    },
+    {
+      "slug": "the-tower",
+      "title": "The Tower",
+      "tag": "Major Arcana",
+      "description": "Sudden truth—collapse that clears space for something real.",
+      "keywords": ["Upheaval", "Revelation", "Disruption", "Truth", "Breakthrough"],
+      "upright": "What’s unstable falls away. It’s painful, but it frees you.",
+      "reversed": "You may be delaying the inevitable. Address cracks before they widen.",
+      "prompt": "What truth are you already aware of but resisting?"
+    },
+    {
+      "slug": "the-star",
+      "title": "The Star",
+      "tag": "Major Arcana",
+      "description": "Hope returns—gentle healing and renewed faith in your path.",
+      "keywords": ["Hope", "Healing", "Renewal", "Inspiration", "Trust"],
+      "upright": "Recovery is underway. Keep going, and nourish what restores you.",
+      "reversed": "Discouragement is heavy. Start small—one supportive action is enough.",
+      "prompt": "What helps you feel hopeful even 5% more?"
+    },
+    {
+      "slug": "the-moon",
+      "title": "The Moon",
+      "tag": "Major Arcana",
+      "description": "Uncertainty, intuition, and navigating what isn’t fully clear yet.",
+      "keywords": ["Illusion", "Subconscious", "Intuition", "Mystery", "Fear"],
+      "upright": "Trust your instincts, but verify the story. Not everything is what it seems.",
+      "reversed": "Confusion is clearing. Name the fear and let the truth surface.",
+      "prompt": "What are you assuming without checking?"
+    },
+    {
+      "slug": "the-sun",
+      "title": "The Sun",
+      "tag": "Major Arcana",
+      "description": "Joy made visible—clarity, warmth, and confidence in full bloom.",
+      "keywords": ["Joy", "Success", "Vitality", "Confidence", "Clarity"],
+      "upright": "Celebrate progress. Your energy is returning and things are aligning.",
+      "reversed": "A temporary cloud. Focus on what’s working and rebuild optimism.",
+      "prompt": "What win are you refusing to count?"
+    },
+    {
+      "slug": "judgement",
+      "title": "Judgement",
+      "tag": "Major Arcana",
+      "description": "A wake-up call—reckoning, forgiveness, and choosing your next life.",
+      "keywords": ["Awakening", "Review", "Forgiveness", "Calling", "Renewal"],
+      "upright": "This is your moment to rise. Learn from the past and answer the call.",
+      "reversed": "Fear of judgment keeps you stuck. Offer yourself grace and move.",
+      "prompt": "What decision would you make if you forgave yourself?"
+    },
+    {
+      "slug": "the-world",
+      "title": "The World",
+      "tag": "Major Arcana",
+      "description": "Completion and integration—the story closes, and you step into the next.",
+      "keywords": ["Completion", "Wholeness", "Closure", "Achievement", "Integration"],
+      "upright": "A cycle completes. Enjoy the milestone and carry the lesson forward.",
+      "reversed": "Loose ends remain. Finish the last 10% with care.",
+      "prompt": "What needs closure before you can truly move on?"
+    },
+
+    {
+      "slug": "ace-of-wands",
+      "title": "Ace of Wands",
+      "tag": "Minor Arcana · Wands",
+      "description": "A spark ignites—new passion, new ideas, new momentum.",
+      "keywords": ["Inspiration", "New beginning", "Creativity", "Desire", "Energy"],
+      "upright": "A fresh burst of motivation is here. Start now and learn by doing.",
+      "reversed": "Low energy or doubt is blocking you. Reconnect with what excites you.",
+      "prompt": "What idea keeps returning that you haven’t acted on yet?"
+    },
+    {
+      "slug": "two-of-wands",
+      "title": "Two of Wands",
+      "tag": "Minor Arcana · Wands",
+      "description": "Vision on the horizon—planning the leap before you take it.",
+      "keywords": ["Planning", "Choice", "Expansion", "Power", "Long view"],
+      "upright": "Decide where you’re going and commit. Your future needs a plan.",
+      "reversed": "Fear or indecision is shrinking your world. Pick one next step.",
+      "prompt": "What decision becomes easier if you stop waiting for certainty?"
+    },
+    {
+      "slug": "three-of-wands",
+      "title": "Three of Wands",
+      "tag": "Minor Arcana · Wands",
+      "description": "Momentum builds—your effort begins to travel farther than you can see.",
+      "keywords": ["Progress", "Expansion", "Foresight", "Growth", "Results"],
+      "upright": "Keep going—results are forming. Stay open to wider opportunities.",
+      "reversed": "Delays require adjustment. Update the plan and keep moving.",
+      "prompt": "What’s one small adjustment that could unlock momentum?"
+    },
+    {
+      "slug": "four-of-wands",
+      "title": "Four of Wands",
+      "tag": "Minor Arcana · Wands",
+      "description": "A milestone worth celebrating—homecoming, joy, and shared wins.",
+      "keywords": ["Celebration", "Harmony", "Community", "Stability", "Milestone"],
+      "upright": "Pause to celebrate progress. Supportive people and environments strengthen you.",
+      "reversed": "Tension at home or lack of support. Create your own sense of safety.",
+      "prompt": "What would it look like to actually celebrate your progress?"
+    },
+    {
+      "slug": "five-of-wands",
+      "title": "Five of Wands",
+      "tag": "Minor Arcana · Wands",
+      "description": "Creative friction—competition, conflict, and learning to work together.",
+      "keywords": ["Conflict", "Competition", "Tension", "Challenge", "Growth"],
+      "upright": "Expect differing opinions. Use the heat to sharpen your work, not burn bridges.",
+      "reversed": "Avoiding conflict or stuck in it. Choose clarity, cooperation, or a clean exit.",
+      "prompt": "What conflict would improve if you named the real issue?"
+    },
+    {
+      "slug": "six-of-wands",
+      "title": "Six of Wands",
+      "tag": "Minor Arcana · Wands",
+      "description": "Recognition arrives—effort seen, progress celebrated.",
+      "keywords": ["Victory", "Recognition", "Confidence", "Momentum", "Success"],
+      "upright": "Take the win and keep showing up. Your work is landing.",
+      "reversed": "Feeling overlooked. Track real progress and don’t outsource your worth.",
+      "prompt": "Where do you crave approval—and what would self-validation look like?"
+    },
+    {
+      "slug": "seven-of-wands",
+      "title": "Seven of Wands",
+      "tag": "Minor Arcana · Wands",
+      "description": "Hold your ground—your boundaries protect what you’ve built.",
+      "keywords": ["Defense", "Boundaries", "Courage", "Perseverance", "Standing firm"],
+      "upright": "Stand by your values. Protect your time and your work.",
+      "reversed": "Overwhelm is rising. Ask for support and tighten priorities.",
+      "prompt": "What boundary would lower your stress immediately?"
+    },
+    {
+      "slug": "eight-of-wands",
+      "title": "Eight of Wands",
+      "tag": "Minor Arcana · Wands",
+      "description": "Fast movement—messages, momentum, and things taking off.",
+      "keywords": ["Speed", "Momentum", "Communication", "Progress", "Action"],
+      "upright": "Things are moving quickly. Respond, prioritize, and ride the momentum.",
+      "reversed": "Delays or scattered energy. Slow down and focus on the true target.",
+      "prompt": "What needs your immediate attention—and what can wait?"
+    },
+    {
+      "slug": "nine-of-wands",
+      "title": "Nine of Wands",
+      "tag": "Minor Arcana · Wands",
+      "description": "Resilience—tired but standing, wiser for what you’ve survived.",
+      "keywords": ["Resilience", "Persistence", "Boundaries", "Caution", "Grit"],
+      "upright": "You’re close to the finish. Rest, reinforce boundaries, and keep going.",
+      "reversed": "Burnout or distrust is high. Heal your nervous system and ask for help.",
+      "prompt": "What would help you feel protected without shutting down?"
+    },
+    {
+      "slug": "ten-of-wands",
+      "title": "Ten of Wands",
+      "tag": "Minor Arcana · Wands",
+      "description": "Too much to carry—success becomes heavy when you do it alone.",
+      "keywords": ["Burden", "Overwork", "Responsibility", "Stress", "Overcommitment"],
+      "upright": "Delegate and simplify. You don’t have to prove you can do it all.",
+      "reversed": "Let it go. Release obligations that aren’t aligned or necessary.",
+      "prompt": "What can you drop without the world ending?"
+    },
+    {
+      "slug": "page-of-wands",
+      "title": "Page of Wands",
+      "tag": "Minor Arcana · Wands",
+      "description": "Curious beginnings—enthusiasm, exploration, and bold first steps.",
+      "keywords": ["Exploration", "Inspiration", "Curiosity", "Courage", "New idea"],
+      "upright": "Follow the spark. Try, experiment, and stay open to learning.",
+      "reversed": "Fear of failure or scattered focus. Commit to one small action.",
+      "prompt": "What would you try if you weren’t worried about being good at it?"
+    },
+    {
+      "slug": "knight-of-wands",
+      "title": "Knight of Wands",
+      "tag": "Minor Arcana · Wands",
+      "description": "Bold pursuit—passion in motion and risk taken on purpose.",
+      "keywords": ["Action", "Adventure", "Confidence", "Impulse", "Drive"],
+      "upright": "Go for it with courage. Just make sure your plan can support your speed.",
+      "reversed": "Recklessness or burnout. Slow down and stop chasing novelty.",
+      "prompt": "Where are you confusing urgency with importance?"
+    },
+    {
+      "slug": "queen-of-wands",
+      "title": "Queen of Wands",
+      "tag": "Minor Arcana · Wands",
+      "description": "Magnetic confidence—warm leadership and creative fire.",
+      "keywords": ["Confidence", "Creativity", "Charisma", "Courage", "Leadership"],
+      "upright": "Lead with warmth and boldness. Your presence gives others permission to shine.",
+      "reversed": "Insecurity or jealousy. Refocus on your lane and rebuild self-trust.",
+      "prompt": "What would you do today if you felt 20% braver?"
+    },
+    {
+      "slug": "king-of-wands",
+      "title": "King of Wands",
+      "tag": "Minor Arcana · Wands",
+      "description": "Vision with authority—creative leadership and confident direction.",
+      "keywords": ["Leadership", "Vision", "Confidence", "Initiative", "Influence"],
+      "upright": "Step into leadership. Direct your energy toward a clear outcome.",
+      "reversed": "Ego or impatience may be steering. Reconnect to purpose and integrity.",
+      "prompt": "What would a strong, values-led leader do in your situation?"
+    },
+
+    {
+      "slug": "ace-of-cups",
+      "title": "Ace of Cups",
+      "tag": "Minor Arcana · Cups",
+      "description": "A new well of feeling—love, openness, and emotional renewal.",
+      "keywords": ["Love", "New emotion", "Intuition", "Compassion", "Healing"],
+      "upright": "Open your heart. A fresh emotional beginning is available—receive it.",
+      "reversed": "Blocked feelings or emotional overwhelm. Make space to process gently.",
+      "prompt": "What emotion are you ready to feel fully instead of avoiding?"
+    },
+    {
+      "slug": "two-of-cups",
+      "title": "Two of Cups",
+      "tag": "Minor Arcana · Cups",
+      "description": "Mutual care, honest connection, and the courage to meet in the middle.",
+      "keywords": ["Partnership", "Union", "Respect", "Harmony", "Agreement"],
+      "upright": "A healthy bond forms through reciprocity. Keep it honest and steady.",
+      "reversed": "Imbalance or tension. Name needs and check alignment.",
+      "prompt": "What does “mutual” look like in your relationships?"
+    },
+    {
+      "slug": "three-of-cups",
+      "title": "Three of Cups",
+      "tag": "Minor Arcana · Cups",
+      "description": "Joy shared—friendship, support, and community that lifts you.",
+      "keywords": ["Friendship", "Celebration", "Community", "Support", "Joy"],
+      "upright": "Connect and celebrate. Let your people refill you.",
+      "reversed": "Drama or burnout. Protect your peace and choose your circle wisely.",
+      "prompt": "Who makes you feel safe to be fully yourself?"
+    },
+    {
+      "slug": "four-of-cups",
+      "title": "Four of Cups",
+      "tag": "Minor Arcana · Cups",
+      "description": "Apathy or pause—emotions need honesty before they can move.",
+      "keywords": ["Apathy", "Contemplation", "Discontent", "Pause", "Reevaluation"],
+      "upright": "You may be emotionally checked out. Look again—an option is being offered.",
+      "reversed": "Re-engagement and new interest. Say yes to what genuinely nourishes you.",
+      "prompt": "What opportunity are you dismissing because you’re tired?"
+    },
+    {
+      "slug": "five-of-cups",
+      "title": "Five of Cups",
+      "tag": "Minor Arcana · Cups",
+      "description": "Grief and regret—mourning what was while life still waits ahead.",
+      "keywords": ["Grief", "Regret", "Loss", "Disappointment", "Acceptance"],
+      "upright": "Let yourself grieve. Then turn toward what remains and what can still be built.",
+      "reversed": "Healing and forgiveness are possible. Release shame and begin again.",
+      "prompt": "What would it look like to let the past be the past?"
+    },
+    {
+      "slug": "six-of-cups",
+      "title": "Six of Cups",
+      "tag": "Minor Arcana · Cups",
+      "description": "Sweet memory—nostalgia, kindness, and soft healing.",
+      "keywords": ["Nostalgia", "Innocence", "Kindness", "Past", "Healing"],
+      "upright": "Revisit what’s pure and supportive. Let tenderness guide your next step.",
+      "reversed": "Don’t get trapped in the past. Keep the lesson, release the fantasy.",
+      "prompt": "What memory is comforting you—and what does it ask you to do now?"
+    },
+    {
+      "slug": "seven-of-cups",
+      "title": "Seven of Cups",
+      "tag": "Minor Arcana · Cups",
+      "description": "Too many options—dreams, distractions, and the need for clarity.",
+      "keywords": ["Choices", "Fantasy", "Imagination", "Temptation", "Overwhelm"],
+      "upright": "Many paths are possible. Choose intentionally instead of drifting.",
+      "reversed": "Clarity returns. Commit to one option and ground it in reality.",
+      "prompt": "What choice becomes obvious if you stop chasing the “perfect” option?"
+    },
+    {
+      "slug": "eight-of-cups",
+      "title": "Eight of Cups",
+      "tag": "Minor Arcana · Cups",
+      "description": "Walking away—choosing growth over comfort and closing a chapter.",
+      "keywords": ["Departure", "Growth", "Letting go", "Search", "Withdrawal"],
+      "upright": "Leave what no longer fulfills you. Your next chapter requires courage.",
+      "reversed": "Fear of change keeps you stuck. Be honest about what isn’t working.",
+      "prompt": "What are you staying in out of habit rather than alignment?"
+    },
+    {
+      "slug": "nine-of-cups",
+      "title": "Nine of Cups",
+      "tag": "Minor Arcana · Cups",
+      "description": "Contentment—wishes, pleasure, and emotional satisfaction.",
+      "keywords": ["Satisfaction", "Joy", "Gratitude", "Fulfillment", "Comfort"],
+      "upright": "Enjoy what you’ve earned. Let yourself receive and savor the moment.",
+      "reversed": "Hedonism or emptiness. Check if you’re chasing comfort over meaning.",
+      "prompt": "What do you truly want—and what would “enough” feel like?"
+    },
+    {
+      "slug": "ten-of-cups",
+      "title": "Ten of Cups",
+      "tag": "Minor Arcana · Cups",
+      "description": "Emotional fulfillment—belonging, harmony, and love that feels safe.",
+      "keywords": ["Harmony", "Family", "Joy", "Alignment", "Peace"],
+      "upright": "This is a heart-level yes. Invest in what supports connection and stability.",
+      "reversed": "Misalignment at home or in values. Repair requires honesty and boundaries.",
+      "prompt": "What does a peaceful life actually require from you?"
+    },
+    {
+      "slug": "page-of-cups",
+      "title": "Page of Cups",
+      "tag": "Minor Arcana · Cups",
+      "description": "A tender message—new feelings, intuition, and creative openness.",
+      "keywords": ["Openness", "Intuition", "Message", "Creativity", "Sensitivity"],
+      "upright": "Stay curious and open-hearted. A new emotional or creative spark is emerging.",
+      "reversed": "Emotional insecurity or avoidance. Be gentle, but be honest about your feelings.",
+      "prompt": "What feeling wants your attention without judgment?"
+    },
+    {
+      "slug": "knight-of-cups",
+      "title": "Knight of Cups",
+      "tag": "Minor Arcana · Cups",
+      "description": "A romantic quest—moving with heart, imagination, and intention.",
+      "keywords": ["Romance", "Idealism", "Charm", "Invitation", "Heart-led action"],
+      "upright": "Follow your heart, and offer sincerity. Let emotion guide—but keep your feet on the ground.",
+      "reversed": "Moodiness or fantasy over reality. Check whether you’re avoiding practical truths.",
+      "prompt": "What would a grounded, honest version of your dream look like?"
+    },
+    {
+      "slug": "queen-of-cups",
+      "title": "Queen of Cups",
+      "tag": "Minor Arcana · Cups",
+      "description": "Deep compassion—emotional wisdom and intuitive care.",
+      "keywords": ["Compassion", "Intuition", "Empathy", "Nurture", "Emotional wisdom"],
+      "upright": "Lead with empathy and boundaries. Your sensitivity is a strength when protected.",
+      "reversed": "Overgiving or emotional overwhelm. Refill your cup before you pour.",
+      "prompt": "What boundary would protect your tenderness right now?"
+    },
+    {
+      "slug": "king-of-cups",
+      "title": "King of Cups",
+      "tag": "Minor Arcana · Cups",
+      "description": "Emotional maturity—steady leadership with a calm heart.",
+      "keywords": ["Balance", "Compassion", "Stability", "Wisdom", "Diplomacy"],
+      "upright": "Stay calm and compassionate. You can hold emotion without being ruled by it.",
+      "reversed": "Suppressed feelings or volatility. Practice honest expression and regulation.",
+      "prompt": "Where do you need to respond with calm instead of reacting?"
+    },
+
+    {
+      "slug": "ace-of-swords",
+      "title": "Ace of Swords",
+      "tag": "Minor Arcana · Swords",
+      "description": "A clean breakthrough—truth, clarity, and a decisive new idea.",
+      "keywords": ["Clarity", "Truth", "Breakthrough", "Focus", "Decision"],
+      "upright": "A sharp insight cuts through confusion. Speak the truth and begin.",
+      "reversed": "Mental fog or miscommunication. Slow down and confirm facts.",
+      "prompt": "What truth is trying to come through clearly right now?"
+    },
+    {
+      "slug": "two-of-swords",
+      "title": "Two of Swords",
+      "tag": "Minor Arcana · Swords",
+      "description": "A blocked choice—silence, stalemate, and avoiding the truth.",
+      "keywords": ["Stalemate", "Choice", "Denial", "Pause", "Balance"],
+      "upright": "You’re delaying a decision. Gather facts, then choose.",
+      "reversed": "The truth breaks through. Stop avoiding and take action.",
+      "prompt": "What decision are you postponing because it feels uncomfortable?"
+    },
+    {
+      "slug": "three-of-swords",
+      "title": "Three of Swords",
+      "tag": "Minor Arcana · Swords",
+      "description": "Heartbreak and clarity—painful truth that can still heal.",
+      "keywords": ["Grief", "Betrayal", "Sorrow", "Truth", "Release"],
+      "upright": "Let yourself feel and name the truth. Healing starts with honesty.",
+      "reversed": "Recovery is underway. Forgiveness and processing soften the edge.",
+      "prompt": "What truth are you finally ready to admit?"
+    },
+    {
+      "slug": "four-of-swords",
+      "title": "Four of Swords",
+      "tag": "Minor Arcana · Swords",
+      "description": "Rest and recovery—your mind needs quiet to reset.",
+      "keywords": ["Rest", "Recovery", "Pause", "Retreat", "Healing"],
+      "upright": "Take a break and restore your energy. Clarity returns after rest.",
+      "reversed": "Burnout or restless anxiety. You need real recovery, not just distraction.",
+      "prompt": "What would genuine rest look like in the next 24 hours?"
+    },
+    {
+      "slug": "five-of-swords",
+      "title": "Five of Swords",
+      "tag": "Minor Arcana · Swords",
+      "description": "Conflict that costs—winning the argument, losing the peace.",
+      "keywords": ["Conflict", "Ego", "Tension", "Hollow victory", "Fallout"],
+      "upright": "Choose your battles. A win isn’t worth it if it burns bridges.",
+      "reversed": "De-escalation and repair. Make amends or walk away cleanly.",
+      "prompt": "Where are you trying to win instead of trying to resolve?"
+    },
+    {
+      "slug": "six-of-swords",
+      "title": "Six of Swords",
+      "tag": "Minor Arcana · Swords",
+      "description": "Leaving rough waters—transition, relief, and moving on.",
+      "keywords": ["Transition", "Healing", "Relief", "Moving forward", "Change"],
+      "upright": "You’re heading toward calmer ground. Keep moving, even slowly.",
+      "reversed": "Resistance to change. Let the old chapter close so healing can begin.",
+      "prompt": "What are you afraid you’ll lose if you move on?"
+    },
+    {
+      "slug": "seven-of-swords",
+      "title": "Seven of Swords",
+      "tag": "Minor Arcana · Swords",
+      "description": "Strategy and secrecy—what’s hidden, and why.",
+      "keywords": ["Strategy", "Secrecy", "Avoidance", "Independence", "Tactics"],
+      "upright": "Move carefully and think long-term. Check whether avoidance is the real driver.",
+      "reversed": "Truth comes out. It’s time to come clean or face what you’ve ignored.",
+      "prompt": "What are you not saying—and what is it costing you?"
+    },
+    {
+      "slug": "eight-of-swords",
+      "title": "Eight of Swords",
+      "tag": "Minor Arcana · Swords",
+      "description": "Feeling trapped—fear, self-doubt, and the illusion of no options.",
+      "keywords": ["Restriction", "Fear", "Self-doubt", "Anxiety", "Perspective"],
+      "upright": "You have more options than you think. Challenge the story that you’re powerless.",
+      "reversed": "Release and new agency. Take one step to prove you’re not stuck.",
+      "prompt": "What belief is keeping you smaller than you need to be?"
+    },
+    {
+      "slug": "nine-of-swords",
+      "title": "Nine of Swords",
+      "tag": "Minor Arcana · Swords",
+      "description": "Anxiety spirals—worry, guilt, and sleepless nights.",
+      "keywords": ["Anxiety", "Worry", "Guilt", "Stress", "Rumination"],
+      "upright": "Your mind is catastrophizing. Ask for support and separate fear from fact.",
+      "reversed": "Relief is possible. Replace shame with compassion and take practical steps.",
+      "prompt": "What worry gets smaller when you say it out loud?"
+    },
+    {
+      "slug": "ten-of-swords",
+      "title": "Ten of Swords",
+      "tag": "Minor Arcana · Swords",
+      "description": "An ending that’s final—painful, but it stops the bleeding.",
+      "keywords": ["Ending", "Collapse", "Finality", "Release", "Reality check"],
+      "upright": "It’s done. Let it end so recovery can start.",
+      "reversed": "The worst is passing. Healing begins when you stop reopening the wound.",
+      "prompt": "What would change if you stopped trying to resurrect what ended?"
+    },
+    {
+      "slug": "page-of-swords",
+      "title": "Page of Swords",
+      "tag": "Minor Arcana · Swords",
+      "description": "Curious mind—questions, vigilance, and learning through observation.",
+      "keywords": ["Curiosity", "Learning", "Truth-seeking", "Alertness", "Communication"],
+      "upright": "Ask questions and stay sharp. Gather information before you commit.",
+      "reversed": "Gossip or scattered thinking. Verify sources and slow your assumptions.",
+      "prompt": "What do you need to learn before you make your next move?"
+    },
+    {
+      "slug": "knight-of-swords",
+      "title": "Knight of Swords",
+      "tag": "Minor Arcana · Swords",
+      "description": "Direct action—fast decisions and speaking without hesitation.",
+      "keywords": ["Action", "Speed", "Ambition", "Directness", "Drive"],
+      "upright": "Move decisively and speak clearly. Just make sure your facts are solid.",
+      "reversed": "Impulsiveness or harsh words. Slow down and consider impact.",
+      "prompt": "Where would slowing down improve your outcome?"
+    },
+    {
+      "slug": "queen-of-swords",
+      "title": "Queen of Swords",
+      "tag": "Minor Arcana · Swords",
+      "description": "Clear sight and clean boundaries—truth without cruelty.",
+      "keywords": ["Clarity", "Boundaries", "Honesty", "Discernment", "Independence"],
+      "upright": "Speak plainly and choose what’s true. Protect your time and energy.",
+      "reversed": "Coldness or harsh judgment. Soften the delivery without losing the truth.",
+      "prompt": "Where do you need to be direct, even if it’s awkward?"
+    },
+    {
+      "slug": "king-of-swords",
+      "title": "King of Swords",
+      "tag": "Minor Arcana · Swords",
+      "description": "Ethical authority—clear thinking and fair decisions.",
+      "keywords": ["Logic", "Authority", "Truth", "Integrity", "Strategy"],
+      "upright": "Lead with reason and principles. Make the fair call and communicate clearly.",
+      "reversed": "Rigid thinking or misuse of power. Reconnect to ethics and empathy.",
+      "prompt": "What would a fair-minded decision look like here?"
+    },
+
+    {
+      "slug": "ace-of-pentacles",
+      "title": "Ace of Pentacles",
+      "tag": "Minor Arcana · Pentacles",
+      "description": "A tangible start—new resources, opportunity, and steady growth.",
+      "keywords": ["Opportunity", "Prosperity", "Stability", "New job", "Manifestation"],
+      "upright": "A practical opportunity is here. Start small and build steadily.",
+      "reversed": "Missed chance or poor planning. Reassess resources and timing.",
+      "prompt": "What small step would make this opportunity real?"
+    },
+    {
+      "slug": "two-of-pentacles",
+      "title": "Two of Pentacles",
+      "tag": "Minor Arcana · Pentacles",
+      "description": "Juggling it all—balance, flexibility, and time management.",
+      "keywords": ["Balance", "Adaptability", "Priorities", "Flow", "Management"],
+      "upright": "You can handle it—stay flexible and keep your schedule realistic.",
+      "reversed": "Overcommitment. Simplify and stop pretending everything is equal priority.",
+      "prompt": "What’s one thing you can pause or delegate this week?"
+    },
+    {
+      "slug": "three-of-pentacles",
+      "title": "Three of Pentacles",
+      "tag": "Minor Arcana · Pentacles",
+      "description": "Craft and collaboration—building something real with others.",
+      "keywords": ["Teamwork", "Skill", "Collaboration", "Learning", "Quality"],
+      "upright": "Work well with others and value expertise. Shared effort creates better outcomes.",
+      "reversed": "Miscommunication or low standards. Clarify roles and raise quality.",
+      "prompt": "What would improve if everyone knew exactly what “done” means?"
+    },
+    {
+      "slug": "four-of-pentacles",
+      "title": "Four of Pentacles",
+      "tag": "Minor Arcana · Pentacles",
+      "description": "Holding tight—security, control, and fear of loss.",
+      "keywords": ["Security", "Control", "Stability", "Possessiveness", "Conservation"],
+      "upright": "Protect what matters, but don’t suffocate it. Balance saving with living.",
+      "reversed": "Loosening grip. Release scarcity thinking and allow flow.",
+      "prompt": "Where are you holding on too tightly—and what are you afraid will happen?"
+    },
+    {
+      "slug": "five-of-pentacles",
+      "title": "Five of Pentacles",
+      "tag": "Minor Arcana · Pentacles",
+      "description": "Hard times—scarcity, isolation, and asking for help.",
+      "keywords": ["Scarcity", "Loss", "Worry", "Isolation", "Support"],
+      "upright": "Help is available, but you must reach for it. You’re not meant to struggle alone.",
+      "reversed": "Recovery and support. Accept assistance and rebuild step by step.",
+      "prompt": "Where could you ask for help instead of white-knuckling it?"
+    },
+    {
+      "slug": "six-of-pentacles",
+      "title": "Six of Pentacles",
+      "tag": "Minor Arcana · Pentacles",
+      "description": "Giving and receiving—support, fairness, and reciprocity.",
+      "keywords": ["Generosity", "Support", "Fairness", "Exchange", "Help"],
+      "upright": "Share resources wisely. Accept help without guilt and give without control.",
+      "reversed": "Strings attached or imbalance. Check motives and reset boundaries.",
+      "prompt": "Where do you give too much—or refuse help out of pride?"
+    },
+    {
+      "slug": "seven-of-pentacles",
+      "title": "Seven of Pentacles",
+      "tag": "Minor Arcana · Pentacles",
+      "description": "Patience and assessment—watching what you planted take root.",
+      "keywords": ["Patience", "Evaluation", "Investment", "Growth", "Long game"],
+      "upright": "Keep tending your work. Results are coming, but they need time.",
+      "reversed": "Impatience or poor return. Adjust strategy or stop investing in the wrong place.",
+      "prompt": "What are you expecting too quickly—and what’s a realistic timeline?"
+    },
+    {
+      "slug": "eight-of-pentacles",
+      "title": "Eight of Pentacles",
+      "tag": "Minor Arcana · Pentacles",
+      "description": "Practice and mastery—small improvements that compound.",
+      "keywords": ["Skill", "Practice", "Craft", "Dedication", "Progress"],
+      "upright": "Focus on the work and refine your craft. Consistency creates excellence.",
+      "reversed": "Boredom or cutting corners. Recommit to quality and meaningful effort.",
+      "prompt": "What skill would change your life if you practiced it regularly?"
+    },
+    {
+      "slug": "nine-of-pentacles",
+      "title": "Nine of Pentacles",
+      "tag": "Minor Arcana · Pentacles",
+      "description": "Self-sufficiency—comfort earned and independence enjoyed.",
+      "keywords": ["Independence", "Comfort", "Abundance", "Confidence", "Reward"],
+      "upright": "Enjoy what you’ve built. Your discipline is paying off in real ways.",
+      "reversed": "Imposter feelings or dependence. Reclaim confidence in what you’ve earned.",
+      "prompt": "Where have you already succeeded but won’t let it count?"
+    },
+    {
+      "slug": "ten-of-pentacles",
+      "title": "Ten of Pentacles",
+      "tag": "Minor Arcana · Pentacles",
+      "description": "Legacy and stability—building something that outlasts you.",
+      "keywords": ["Legacy", "Security", "Family", "Abundance", "Tradition"],
+      "upright": "Long-term security and shared success. Think sustainable, not flashy.",
+      "reversed": "Instability or family tension around resources. Align values and plan responsibly.",
+      "prompt": "What do you want your long-term life to be built on?"
+    },
+    {
+      "slug": "page-of-pentacles",
+      "title": "Page of Pentacles",
+      "tag": "Minor Arcana · Pentacles",
+      "description": "A practical beginning—learning, planning, and building skills.",
+      "keywords": ["Learning", "Opportunity", "Study", "Practical goal", "Growth"],
+      "upright": "Start the course, take the job, learn the skill. Consistency pays here.",
+      "reversed": "Procrastination or unrealistic plans. Choose one goal and make it actionable.",
+      "prompt": "What would you improve fast if you practiced it 10 minutes a day?"
+    },
+    {
+      "slug": "knight-of-pentacles",
+      "title": "Knight of Pentacles",
+      "tag": "Minor Arcana · Pentacles",
+      "description": "Steady progress—reliability, routine, and long-term effort.",
+      "keywords": ["Consistency", "Routine", "Responsibility", "Persistence", "Practicality"],
+      "upright": "Keep going—slow, steady effort wins. Build with patience and discipline.",
+      "reversed": "Stagnation or stubbornness. Adjust the routine and re-energize the plan.",
+      "prompt": "What small daily action would move you forward over time?"
+    },
+    {
+      "slug": "queen-of-pentacles",
+      "title": "Queen of Pentacles",
+      "tag": "Minor Arcana · Pentacles",
+      "description": "Grounded care—comfort, stability, and resourceful nurturing.",
+      "keywords": ["Nurture", "Practicality", "Stability", "Comfort", "Resourcefulness"],
+      "upright": "Create a supportive home base. Care for your body and manage resources wisely.",
+      "reversed": "Overgiving or controlling. Restore balance and prioritize your own needs.",
+      "prompt": "Where do you need to treat yourself like someone you’re responsible for?"
+    },
+    {
+      "slug": "king-of-pentacles",
+      "title": "King of Pentacles",
+      "tag": "Minor Arcana · Pentacles",
+      "description": "Material mastery—security built through wisdom and integrity.",
+      "keywords": ["Security", "Leadership", "Success", "Stability", "Discipline"],
+      "upright": "Lead responsibly and invest wisely. Build wealth and stability with patience.",
+      "reversed": "Greed or rigidity. Recenter on values and generosity.",
+      "prompt": "What does “success with integrity” look like for you?"
+    }
+  ]
+}

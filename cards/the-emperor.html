@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Emperor | Quick Draw Tarot</title>
+    <link rel="stylesheet" href="/Quick-Draw-Tarot/main.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="nav">
+        <a href="/Quick-Draw-Tarot/">Quick Draw Tarot</a>
+        <div class="nav-links">
+          <a href="/Quick-Draw-Tarot/">Home</a>
+          <a href="/Quick-Draw-Tarot/spread/">Spreads</a>
+          <a href="/Quick-Draw-Tarot/cards/">Cards</a>
+          <a href="/Quick-Draw-Tarot/guide">How to Read</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="panel">
+          <span class="tag">Major Arcana</span>
+          <h1>The Emperor</h1>
+          <p>Structure, leadership, and stability built with clear boundaries.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="grid">
+          <article class="card">
+            <h3>Keywords</h3>
+            <p>Authority · Order · Stability · Boundaries · Discipline</p>
+          </article>
+          <article class="card">
+            <h3>Upright</h3>
+            <p>Create a plan and follow it. Take responsibility and lead with clarity.</p>
+          </article>
+          <article class="card">
+            <h3>Reversed</h3>
+            <p>Control is tightening too far. Loosen rigidity and invite collaboration.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="panel">
+          <h2>Reflection</h2>
+          <p>What boundary would make your life easier if you enforced it?</p>
+        </div>
+      </section>
+
+      <section class="section" id="spread-panel"></section>
+    </main>
+
+    <script type="application/json" id="card-meta">
+      { "slug": "the-emperor", "title": "The Emperor", "path": "/cards/the-emperor.html" }
+    </script>
+    <script src="/Quick-Draw-Tarot/assets/spread.js"></script>
+    <script>
+      window.TarotSpread.renderSpreadPanel("#spread-panel");
+    </script>
+  </body>
+</html>
