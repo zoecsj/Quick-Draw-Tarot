@@ -33,6 +33,43 @@
         { key: "next", label: "What’s Next" },
       ],
     },
+    "shadow-work": {
+      label: "Shadow Work",
+      positions: [
+        { key: "trigger", label: "Trigger – What’s activating you right now?" },
+        { key: "shadow", label: "Shadow – What part of you is being protected or hidden?" },
+        { key: "root", label: "Root – Where did this pattern start?" },
+        { key: "lesson", label: "Lesson – What is this trying to teach you?" },
+        { key: "integration", label: "Integration – How can you heal and move forward?" },
+      ],
+    },
+    decision: {
+      label: "Decision",
+      positions: [
+        { key: "option-a", label: "Option A – What you gain" },
+        { key: "option-a-cost", label: "Option A – What it costs" },
+        { key: "option-b", label: "Option B – What you gain" },
+        { key: "option-b-cost", label: "Option B – What it costs" },
+        { key: "guidance", label: "Guidance – Best path or advice right now" },
+      ],
+    },
+    "year-ahead": {
+      label: "Year Ahead",
+      positions: [
+        { key: "january", label: "January" },
+        { key: "february", label: "February" },
+        { key: "march", label: "March" },
+        { key: "april", label: "April" },
+        { key: "may", label: "May" },
+        { key: "june", label: "June" },
+        { key: "july", label: "July" },
+        { key: "august", label: "August" },
+        { key: "september", label: "September" },
+        { key: "october", label: "October" },
+        { key: "november", label: "November" },
+        { key: "december", label: "December" },
+      ],
+    },
   };
 
   function getSpreadType(type) {
@@ -114,6 +151,19 @@
     }
 
     return null;
+  }
+
+  function getProgress(spread) {
+    const current = spread || getSpread();
+    const positions = getPositionList(current);
+    const placed = positions.filter(function (position) {
+      return current && current.positions[position.key];
+    }).length;
+
+    return {
+      placed,
+      total: positions.length,
+    };
   }
 
   function getPositionLabel(type, key) {
@@ -214,11 +264,15 @@
 
       if (!open) {
         html += "<p>Spread complete.</p>";
+        const progress = getProgress(spread);
+        html += `<p>${progress.placed} of ${progress.total} cards placed.</p>`;
         html += `<a class="button secondary" href="${BASE_PATH}/spread/">View spread summary</a> `;
         html += '<button type="button" class="button" data-action="restart">Start new spread</button> ';
         html += '<button type="button" class="button secondary" data-action="end">End spread</button>';
       } else {
+        const progress = getProgress(spread);
         html += `<p>Spread in progress: Next position = ${getPositionLabel(spread.type, open)}</p>`;
+        html += `<p>${progress.placed} of ${progress.total} cards placed.</p>`;
         html += '<button type="button" class="button" data-action="add">Add this card</button> ';
         html += `<a class="button secondary" href="${BASE_PATH}/spread/">View spread</a> `;
         html += '<button type="button" class="button secondary" data-action="end">End spread</button>';
@@ -283,6 +337,7 @@
     getCardMetaFromPage,
     getPositionLabel,
     getPositionList,
+    getProgress,
     renderSpreadPanel,
     capitalize,
   };
