@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page of Wands | Quick Draw Tarot</title>
+    <link rel="stylesheet" href="/Quick-Draw-Tarot/main.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="nav">
+        <a href="/Quick-Draw-Tarot/">Quick Draw Tarot</a>
+        <div class="nav-links">
+          <a href="/Quick-Draw-Tarot/">Home</a>
+          <a href="/Quick-Draw-Tarot/spread/">Spreads</a>
+          <a href="/Quick-Draw-Tarot/cards/">Cards</a>
+          <a href="/Quick-Draw-Tarot/cards/major_arcana/">Major Arcana</a>
+          <a href="/Quick-Draw-Tarot/guide">How to Read</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="panel">
+          <span class="tag">Minor Arcana · Wands</span>
+          <h1>Page of Wands</h1>
+          <p>Curious beginnings—enthusiasm, exploration, and bold first steps.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="grid">
+          <article class="card">
+            <h3>Keywords</h3>
+            <p>Exploration · Inspiration · Curiosity · Courage · New idea</p>
+          </article>
+          <article class="card">
+            <h3>Upright</h3>
+            <p>Follow the spark. Try, experiment, and stay open to learning.</p>
+          </article>
+          <article class="card">
+            <h3>Reversed</h3>
+            <p>Fear of failure or scattered focus. Commit to one small action.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="panel">
+          <h2>Reflection</h2>
+          <p>What would you try if you weren’t worried about being good at it?</p>
+        </div>
+      </section>
+
+      <section class="section" id="spread-panel"></section>
+    </main>
+
+    <script type="application/json" id="card-meta">
+      { "slug": "page-of-wands", "title": "Page of Wands", "path": "/cards/page-of-wands.html" }
+    </script>
+    <script src="/Quick-Draw-Tarot/assets/spread.js"></script>
+    <script>
+      window.TarotSpread.renderSpreadPanel("#spread-panel");
+    </script>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ace of Pentacles | Quick Draw Tarot</title>
+    <link rel="stylesheet" href="/Quick-Draw-Tarot/main.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="nav">
+        <a href="/Quick-Draw-Tarot/">Quick Draw Tarot</a>
+        <div class="nav-links">
+          <a href="/Quick-Draw-Tarot/">Home</a>
+          <a href="/Quick-Draw-Tarot/spread/">Spreads</a>
+          <a href="/Quick-Draw-Tarot/cards/">Cards</a>
+          <a href="/Quick-Draw-Tarot/cards/major_arcana/">Major Arcana</a>
+          <a href="/Quick-Draw-Tarot/guide">How to Read</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="panel">
+          <span class="tag">Minor Arcana · Pentacles</span>
+          <h1>Ace of Pentacles</h1>
+          <p>A tangible start—new resources, opportunity, and steady growth.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="grid">
+          <article class="card">
+            <h3>Keywords</h3>
+            <p>Opportunity · Prosperity · Stability · New job · Manifestation</p>
+          </article>
+          <article class="card">
+            <h3>Upright</h3>
+            <p>A practical opportunity is here. Start small and build steadily.</p>
+          </article>
+          <article class="card">
+            <h3>Reversed</h3>
+            <p>Missed chance or poor planning. Reassess resources and timing.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="panel">
+          <h2>Reflection</h2>
+          <p>What small step would make this opportunity real?</p>
+        </div>
+      </section>
+
+      <section class="section" id="spread-panel"></section>
+    </main>
+
+    <script type="application/json" id="card-meta">
+      { "slug": "ace-of-pentacles", "title": "Ace of Pentacles", "path": "/cards/ace-of-pentacles.html" }
+    </script>
+    <script src="/Quick-Draw-Tarot/assets/spread.js"></script>
+    <script>
+      window.TarotSpread.renderSpreadPanel("#spread-panel");
+    </script>
+  </body>
+</html>
