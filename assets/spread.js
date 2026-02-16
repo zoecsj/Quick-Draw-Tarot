@@ -1,7 +1,43 @@
 (function () {
   const BASE_PATH = "/Quick-Draw-Tarot";
   const STORAGE_KEY = "tarot_spread_v1";
-  const POSITIONS = ["past", "present", "future"];
+
+  const SPREAD_TYPES = {
+    daily: {
+      label: "Daily Reading",
+      positions: [{ key: "card", label: "Your Card" }],
+    },
+    "past-present-future": {
+      label: "Past / Present / Future",
+      positions: [
+        { key: "past", label: "Past" },
+        { key: "present", label: "Present" },
+        { key: "future", label: "Future" },
+      ],
+    },
+    hermit: {
+      label: "Hermit's Guidance",
+      positions: [
+        { key: "dark", label: "Dark – What is the path before you?" },
+        { key: "persona", label: "Persona – What mask do you present?" },
+        { key: "true-self", label: "True Self – Who are you when alone?" },
+        { key: "guiding-light", label: "Guiding Light – Your highest potential" },
+      ],
+    },
+    clarity: {
+      label: "Clarity",
+      positions: [
+        { key: "know", label: "What You Need to Know" },
+        { key: "embrace", label: "What You Need to Embrace" },
+        { key: "release", label: "What You Need to Release" },
+        { key: "next", label: "What’s Next" },
+      ],
+    },
+  };
+
+  function getSpreadType(type) {
+    return SPREAD_TYPES[type] || null;
+  }
 
   function getSpread() {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -9,10 +45,21 @@
 
     try {
       const parsed = JSON.parse(raw);
-      if (!parsed || parsed.type !== "past-present-future" || !parsed.positions) {
+      const spreadType = parsed && parsed.type ? getSpreadType(parsed.type) : null;
+      if (!parsed || !spreadType || !parsed.positions || typeof parsed.positions !== "object") {
         return null;
       }
-      return parsed;
+
+      const normalizedPositions = {};
+      spreadType.positions.forEach(function (position) {
+        normalizedPositions[position.key] = parsed.positions[position.key] || null;
+      });
+
+      return {
+        type: parsed.type,
+        createdAt: parsed.createdAt || new Date().toISOString(),
+        positions: normalizedPositions,
+      };
     } catch (error) {
       return null;
     }
@@ -23,15 +70,21 @@
     return spread;
   }
 
-  function startSpread() {
+  function startSpread(type) {
+    const spreadType = getSpreadType(type || "past-present-future");
+    if (!spreadType) {
+      return null;
+    }
+
+    const positions = {};
+    spreadType.positions.forEach(function (position) {
+      positions[position.key] = null;
+    });
+
     const spread = {
-      type: "past-present-future",
+      type: type || "past-present-future",
       createdAt: new Date().toISOString(),
-      positions: {
-        past: null,
-        present: null,
-        future: null,
-      },
+      positions,
     };
 
     return saveSpread(spread);
@@ -41,22 +94,41 @@
     localStorage.removeItem(STORAGE_KEY);
   }
 
+  function getPositionList(spread) {
+    const current = spread || getSpread();
+    if (!current) return [];
+    const spreadType = getSpreadType(current.type);
+    if (!spreadType) return [];
+    return spreadType.positions;
+  }
+
   function nextOpenPosition(spread) {
     const current = spread || getSpread();
     if (!current) return null;
 
-    for (const position of POSITIONS) {
-      if (!current.positions[position]) {
-        return position;
+    const positions = getPositionList(current);
+    for (const position of positions) {
+      if (!current.positions[position.key]) {
+        return position.key;
       }
     }
 
     return null;
   }
 
+  function getPositionLabel(type, key) {
+    const spreadType = getSpreadType(type);
+    if (!spreadType) return capitalize(key);
+    const found = spreadType.positions.find(function (position) {
+      return position.key === key;
+    });
+    return found ? found.label : capitalize(key);
+  }
+
   function hasDuplicate(spread, slug) {
-    return POSITIONS.some((position) => {
-      const card = spread.positions[position];
+    const positions = getPositionList(spread);
+    return positions.some(function (position) {
+      const card = spread.positions[position.key];
       return card && card.slug === slug;
     });
   }
@@ -83,7 +155,7 @@
     };
 
     saveSpread(spread);
-    return { ok: true, position: open, message: `Added to ${capitalize(open)}.` };
+    return { ok: true, position: open, message: `Added to ${getPositionLabel(spread.type, open)}.` };
   }
 
   function getCardMetaFromPage() {
@@ -107,6 +179,15 @@
     messageNode.textContent = text;
   }
 
+  function spreadTypeOptions(selectedType) {
+    return Object.keys(SPREAD_TYPES)
+      .map(function (type) {
+        const selected = selectedType === type ? " selected" : "";
+        return `<option value="${type}"${selected}>${SPREAD_TYPES[type].label}</option>`;
+      })
+      .join("");
+  }
+
   function renderSpreadPanel(selector) {
     const container = document.querySelector(selector);
     if (!container) return;
@@ -116,21 +197,32 @@
     const cardMeta = getCardMetaFromPage();
 
     let html = '<div class="panel">';
-    html += '<h2>Spread</h2>';
+    html += "<h2>Spread</h2>";
     html += '<p data-role="spread-message" class="nfc-progress"></p>';
 
     if (!spread) {
-      html += '<p>No spread is active yet.</p>';
-      html += '<button type="button" class="button" data-action="start">Start a Past / Present / Future spread</button>';
-    } else if (!open) {
-      html += '<p>Spread complete.</p>';
-      html += `<a class="button secondary" href="${BASE_PATH}/spread/">View spread summary</a> `;
-      html += '<button type="button" class="button" data-action="restart">Start new spread</button>';
+      html += "<p>No spread is active yet.</p>";
+      html += '<div class="list">';
+      html += `<label for="spread-type-select">Spread type</label>`;
+      html += `<select id="spread-type-select">${spreadTypeOptions("past-present-future")}</select>`;
+      html += '<button type="button" class="button" data-action="start">Start Spread</button>';
+      html += "</div>";
     } else {
-      html += `<p>Spread in progress: Next position = ${capitalize(open)}</p>`;
-      html += `<button type="button" class="button" data-action="add">Add this card to ${capitalize(open)}</button> `;
-      html += `<a class="button secondary" href="${BASE_PATH}/spread/">View spread</a> `;
-      html += '<button type="button" class="button secondary" data-action="end">End spread</button>';
+      const spreadType = getSpreadType(spread.type);
+      const spreadLabel = spreadType ? spreadType.label : spread.type;
+      html += `<p>Spread: ${spreadLabel}</p>`;
+
+      if (!open) {
+        html += "<p>Spread complete.</p>";
+        html += `<a class="button secondary" href="${BASE_PATH}/spread/">View spread summary</a> `;
+        html += '<button type="button" class="button" data-action="restart">Start new spread</button> ';
+        html += '<button type="button" class="button secondary" data-action="end">End spread</button>';
+      } else {
+        html += `<p>Spread in progress: Next position = ${getPositionLabel(spread.type, open)}</p>`;
+        html += '<button type="button" class="button" data-action="add">Add this card</button> ';
+        html += `<a class="button secondary" href="${BASE_PATH}/spread/">View spread</a> `;
+        html += '<button type="button" class="button secondary" data-action="end">End spread</button>';
+      }
     }
 
     html += "</div>";
@@ -143,7 +235,9 @@
 
     if (startButton) {
       startButton.addEventListener("click", function () {
-        startSpread();
+        const select = container.querySelector("#spread-type-select");
+        const spreadType = select ? select.value : "past-present-future";
+        startSpread(spreadType);
         renderSpreadPanel(selector);
         setMessage(container, "Spread started.");
       });
@@ -167,8 +261,10 @@
 
     if (restartButton) {
       restartButton.addEventListener("click", function () {
+        const current = getSpread();
+        const spreadType = current ? current.type : "past-present-future";
         clearSpread();
-        startSpread();
+        startSpread(spreadType);
         renderSpreadPanel(selector);
         setMessage(container, "Started a new spread.");
       });
@@ -178,12 +274,15 @@
   window.TarotSpread = {
     BASE_PATH,
     STORAGE_KEY,
+    SPREAD_TYPES,
     getSpread,
     startSpread,
     clearSpread,
     nextOpenPosition,
     addCardToSpread,
     getCardMetaFromPage,
+    getPositionLabel,
+    getPositionList,
     renderSpreadPanel,
     capitalize,
   };

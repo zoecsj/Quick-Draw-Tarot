@@ -23,9 +23,9 @@
     <main>
       <section class="section">
         <div class="panel">
-          <span class="tag">Past / Present / Future</span>
+          <span class="tag" id="spread-type-tag">Spread</span>
           <h1>Spread Summary</h1>
-          <p>Your three-card spread is stored in localStorage and updates each time a card is added.</p>
+          <p id="spread-type-description">Your spread is stored in localStorage and updates each time a card is added.</p>
         </div>
       </section>
 
@@ -37,6 +37,7 @@
         <div class="panel">
           <div class="list">
             <button class="button" type="button" id="clear-spread">Clear spread</button>
+            <button class="button secondary" type="button" id="start-new-spread">Start new spread</button>
             <a class="button secondary" href="/Quick-Draw-Tarot/cards/">Browse cards</a>
           </div>
         </div>
@@ -46,6 +47,22 @@
     <script src="/Quick-Draw-Tarot/assets/spread.js"></script>
     <script src="/Quick-Draw-Tarot/assets/ui.js"></script>
     <script>
+      function updateSpreadHeader() {
+        const spread = window.TarotSpread.getSpread();
+        const tag = document.getElementById('spread-type-tag');
+        const description = document.getElementById('spread-type-description');
+
+        if (!spread) {
+          tag.textContent = 'No active spread';
+          description.textContent = 'Start a spread from any card page, then return here to view the summary.';
+          return;
+        }
+
+        const type = window.TarotSpread.SPREAD_TYPES[spread.type];
+        tag.textContent = type ? type.label : spread.type;
+        description.textContent = 'This spread is stored in localStorage and updates each time a card is added.';
+      }
+
       function render() {
         fetch('/Quick-Draw-Tarot/data/cards.json')
           .then(function (response) {
@@ -63,12 +80,21 @@
               };
             });
 
+            updateSpreadHeader();
             window.TarotUI.renderSpreadSummary('#spread-summary-grid', details);
           });
       }
 
       document.getElementById('clear-spread').addEventListener('click', function () {
         window.TarotSpread.clearSpread();
+        render();
+      });
+
+      document.getElementById('start-new-spread').addEventListener('click', function () {
+        const current = window.TarotSpread.getSpread();
+        const type = current ? current.type : 'past-present-future';
+        window.TarotSpread.clearSpread();
+        window.TarotSpread.startSpread(type);
         render();
       });
 
