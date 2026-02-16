@@ -1,14 +1,14 @@
 :root {
-  color-scheme: light;
-  --ink: #3a0b45;
-  --ink-muted: #6a2a4a;
-  --cream: #f0e5d8;
-  --rose: #a83c6d;
-  --plum: #3a0b45;
-  --gold: #d9bf77;
-  --sun: #f6d55c;
-  --card: #ffffff;
-  --shadow: 0 20px 45px rgba(58, 11, 69, 0.18);
+  color-scheme: dark;
+  --ink: #d8c7a1;
+  --ink-muted: #b8a88a;
+  --cream: #1c1126;
+  --rose: #e6c57a;
+  --plum: #2a1636;
+  --gold: #e6c57a;
+  --sun: #f0d48a;
+  --card: #1b1324;
+  --shadow: 0 14px 28px rgba(0, 0, 0, 0.45);
   --radius: 20px;
   --font-heading: "Sail", "Times New Roman", serif;
   --font-subheading: "Arya", "Helvetica Neue", Arial, sans-serif;
@@ -22,23 +22,25 @@
 
 body {
   margin: 0;
-  background: radial-gradient(circle at top, #fef7ee, #f0e5d8 55%, #efe4d0 100%);
+  background:
+    radial-gradient(circle at 50% 16%, rgba(58, 36, 22, 0.28), rgba(58, 36, 22, 0) 48%),
+    radial-gradient(circle at 50% -18%, #26172f, #1c1126 45%, #140d1c 100%);
   color: var(--ink);
-  line-height: 1.6;
+  line-height: 1.75;
 }
 
 main {
   max-width: 1120px;
   margin: 0 auto;
-  padding: 32px 24px 80px;
+  padding: 40px 24px 92px;
 }
 
 header {
   position: sticky;
   top: 0;
   backdrop-filter: blur(16px);
-  background: rgba(240, 229, 216, 0.9);
-  border-bottom: 1px solid rgba(58, 11, 69, 0.12);
+  background: rgba(20, 13, 28, 0.88);
+  border-bottom: 1px solid rgba(230, 197, 122, 0.16);
   z-index: 10;
 }
 
@@ -69,8 +71,8 @@ header {
   gap: 6px;
   padding: 6px 12px;
   border-radius: 999px;
-  background: rgba(168, 60, 109, 0.15);
-  color: var(--plum);
+  background: rgba(202, 168, 92, 0.12);
+  color: #e6c57a;
   font-size: 0.85rem;
   font-weight: 600;
 }
@@ -78,22 +80,27 @@ header {
 .hero {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 32px;
+  gap: 36px;
   align-items: center;
-  margin-top: 40px;
+  margin-top: 48px;
 }
 
 .hero-card {
-  background: var(--card);
-  padding: 28px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.15)),
+    var(--card);
+  padding: 38px;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  border: 1px solid rgba(90, 63, 116, 0.1);
+  border: 1px solid rgba(230, 197, 122, 0.15);
 }
 
 .hero h1 {
   font-size: clamp(2.2rem, 2.5vw + 1.6rem, 3.4rem);
   margin-bottom: 12px;
+  letter-spacing: 0.9px;
+  text-shadow: 0 0 24px rgba(230, 197, 122, 0.2);
+  background: radial-gradient(circle at 30% 30%, rgba(230, 197, 122, 0.2), rgba(230, 197, 122, 0));
 }
 
 .hero p {
@@ -107,24 +114,29 @@ header {
   justify-content: center;
   padding: 12px 20px;
   border-radius: 999px;
-  border: none;
-  background: var(--plum);
-  color: #fff;
+  border: 1px solid #caa85c;
+  background: #2a1636;
+  color: #f0d48a;
   font-weight: 600;
   text-decoration: none;
-  box-shadow: 0 15px 30px rgba(58, 11, 69, 0.3);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.45);
   cursor: pointer;
+}
+
+.button:hover,
+.button:focus-visible {
+  box-shadow: 0 0 20px rgba(230, 197, 122, 0.35);
 }
 
 .button.secondary {
   background: transparent;
-  color: var(--plum);
-  border: 1px solid rgba(58, 11, 69, 0.3);
+  color: #e6c57a;
+  border: 1px solid #caa85c;
   box-shadow: none;
 }
 
 .section {
-  margin-top: 60px;
+  margin-top: 100px;
 }
 
 .section h2 {
@@ -139,10 +151,12 @@ header {
 }
 
 .card {
-  background: var(--card);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.15)),
+    #1b1324;
   border-radius: 16px;
   padding: 20px;
-  border: 1px solid rgba(58, 11, 69, 0.12);
+  border: 1px solid rgba(230, 197, 122, 0.15);
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
@@ -159,17 +173,19 @@ header {
 }
 
 .card a {
-  color: var(--plum);
+  color: #e6c57a;
   font-weight: 600;
   text-decoration: none;
 }
 
 .panel {
-  background: var(--card);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.15)),
+    #1b1324;
   border-radius: var(--radius);
   padding: 24px;
   box-shadow: var(--shadow);
-  border: 1px solid rgba(58, 11, 69, 0.12);
+  border: 1px solid rgba(230, 197, 122, 0.15);
 }
 
 .list {
@@ -181,7 +197,7 @@ header {
 .footer {
   margin-top: 64px;
   padding-top: 24px;
-  border-top: 1px solid rgba(58, 11, 69, 0.12);
+  border-top: 1px solid rgba(230, 197, 122, 0.15);
   color: var(--ink-muted);
   font-size: 0.9rem;
 }
@@ -190,7 +206,7 @@ h1,
 h2,
 h3 {
   font-family: var(--font-heading);
-  color: var(--plum);
+  color: #e6c57a;
   letter-spacing: 0.5px;
 }
 
@@ -210,11 +226,11 @@ div {
 }
 
 a {
-  color: var(--rose);
+  color: #e6c57a;
 }
 
 .hero-card h2 {
-  color: var(--plum);
+  color: #e6c57a;
 }
 
 @media (max-width: 720px) {
@@ -225,16 +241,16 @@ a {
 }
 
 code {
-  background: rgba(58, 11, 69, 0.08);
+  background: rgba(230, 197, 122, 0.12);
   border-radius: 8px;
   padding: 2px 8px;
-  color: var(--plum);
+  color: #f0d48a;
 }
 
 .nfc-progress {
   margin: 8px 0 0;
   font-weight: 700;
-  color: var(--rose);
+  color: #f0d48a;
 }
 
 .nav > a {
