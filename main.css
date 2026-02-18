@@ -284,3 +284,98 @@ code {
   font-family: var(--font-heading);
   font-size: 1.25rem;
 }
+
+
+.velvet {
+  line-height: 1.55;
+}
+
+.velvet .panel,
+.velvet .card,
+.velvet .hero-card {
+  background: rgba(20, 13, 28, 0.92);
+  border: 1px solid rgba(217, 191, 119, 0.18);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.42);
+}
+
+.velvet .panel,
+.velvet .card,
+.velvet .hero-card,
+.velvet .panel p,
+.velvet .card p,
+.velvet .hero-card p,
+.velvet .panel li,
+.velvet .card li,
+.velvet .hero-card li {
+  color: rgba(240, 229, 216, 0.88);
+}
+
+.velvet .panel h1,
+.velvet .panel h2,
+.velvet .panel h3,
+.velvet .card h1,
+.velvet .card h2,
+.velvet .card h3,
+.velvet .hero-card h1,
+.velvet .hero-card h2,
+.velvet .hero-card h3 {
+  color: var(--gold);
+}
+
+.velvet .panel a,
+.velvet .card a,
+.velvet .hero-card a {
+  color: var(--gold);
+  text-decoration-line: underline;
+  text-decoration-color: rgba(217, 191, 119, 0.66);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.velvet .panel a:hover,
+.velvet .panel a:focus-visible,
+.velvet .card a:hover,
+.velvet .card a:focus-visible,
+.velvet .hero-card a:hover,
+.velvet .hero-card a:focus-visible {
+  text-decoration-thickness: 2px;
+}
+
+.velvet .panel ul,
+.velvet .panel ol,
+.velvet .card ul,
+.velvet .card ol,
+.velvet .hero-card ul,
+.velvet .hero-card ol {
+  padding-left: 1.4rem;
+}
+
+.velvet .panel li,
+.velvet .card li,
+.velvet .hero-card li {
+  margin-bottom: 0.48rem;
+}
+
+.velvet .panel li::marker,
+.velvet .card li::marker,
+.velvet .hero-card li::marker {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.velvet .panel p,
+.velvet .card p,
+.velvet .hero-card p {
+  margin-bottom: 14px;
+}
+
+.velvet hr {
+  border: 0;
+  border-top: 1px solid rgba(217, 191, 119, 0.22);
+}
+
+.velvet code {
+  background: rgba(217, 191, 119, 0.12);
+  color: rgba(240, 229, 216, 0.92);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
