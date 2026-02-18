@@ -90,11 +90,11 @@ function cardPageHtml(card) {
 
 function cardsIndexHtml(cards) {
   const groups = [
-    { title: 'Major Arcana', key: 'major' },
-    { title: 'Wands', key: 'wands' },
-    { title: 'Cups', key: 'cups' },
-    { title: 'Swords', key: 'swords' },
-    { title: 'Pentacles', key: 'pentacles' },
+    { title: 'Major Arcana', key: 'major', id: 'major' },
+    { title: 'Wands', key: 'wands', id: 'wands' },
+    { title: 'Cups', key: 'cups', id: 'cups' },
+    { title: 'Swords', key: 'swords', id: 'swords' },
+    { title: 'Pentacles', key: 'pentacles', id: 'pentacles' },
   ];
 
   const grouped = {
@@ -109,16 +109,15 @@ function cardsIndexHtml(cards) {
     .map((group) => {
       const entries = grouped[group.key]
         .map((card) => `
-          <article class="card">
+          <a class="card" href="${BASE_PATH}/cards/${escapeHtml(card.slug)}.html">
             <h3>${escapeHtml(card.title)}</h3>
             <p>${escapeHtml(card.description)}</p>
-            <a href="${BASE_PATH}/cards/${escapeHtml(card.slug)}.html">Open card</a>
-          </article>
+          </a>
         `)
         .join('');
 
       return `
-        <section class="section">
+        <section class="section" id="${group.id}">
           <h2>${group.title}</h2>
           <div class="grid">
             ${entries}
@@ -152,13 +151,44 @@ function cardsIndexHtml(cards) {
     <main>
       <section class="section">
         <div class="panel">
-          <span class="tag">Card Library</span>
-          <h1>All Cards</h1>
-          <p>Tap NFC cards to open pages directly.</p>
+          <h1>Cards</h1>
+          <p>Tap a card to read it.</p>
+          <p><a href="#major">Major</a> · <a href="#wands">Wands</a> · <a href="#cups">Cups</a> · <a href="#swords">Swords</a> · <a href="#pentacles">Pentacles</a></p>
         </div>
       </section>
+
+      <section class="section" id="reading-mode-banner"></section>
+
       ${sections}
     </main>
+
+    <script src="${BASE_PATH}/assets/spread.js"></script>
+    <script>
+      (function () {
+        const container = document.getElementById('reading-mode-banner');
+        const spread = window.TarotSpread && window.TarotSpread.getSpread ? window.TarotSpread.getSpread() : null;
+        if (!container || !spread) {
+          if (container) container.innerHTML = '';
+          return;
+        }
+
+        const progress = window.TarotSpread.getProgress(spread);
+        if (!progress || progress.placed >= progress.total) {
+          container.innerHTML = '';
+          return;
+        }
+
+        const next = window.TarotSpread.nextOpenPosition(spread);
+        const nextLabel = next ? window.TarotSpread.getPositionLabel(spread.type, next) : '—';
+
+        container.innerHTML =
+          '<div class="panel">' +
+          '<h2>Reading in Progress</h2>' +
+          '<p>Next: ' + nextLabel + ' · Placed ' + progress.placed + ' of ' + progress.total + '</p>' +
+          '<p>Tap the next card to continue.</p>' +
+          '</div>';
+      })();
+    </script>
   </body>
 </html>
 `;
