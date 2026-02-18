@@ -279,6 +279,15 @@
           optionA: "",
           optionB: "",
         },
+        lastSpreadKey: "",
+        placedLabel: "",
+        justPlaced: false,
+        message: "",
+        placing: false,
+        toastNode: null,
+        toastTimerId: null,
+        completionOverlayNode: null,
+        completionTimerId: null,
       };
     }
     return panelStateBySelector[selector];
@@ -335,8 +344,8 @@
     panel.style.width = "100%";
     panel.style.textAlign = "center";
     panel.innerHTML =
-      '<h2>Get Ready</h2>' +
-      '<p>Take one steady breath.<br />Name your intention quietly.<br />Let the next card meet you where you are.</p>' ;
+      '<h2>The cards are open.</h2>' +
+      '<p>Begin.</p>' ;
 
     overlay.appendChild(panel);
     document.body.appendChild(overlay);
@@ -387,25 +396,204 @@
     return Boolean(state.form.optionA.trim() && state.form.optionB.trim());
   }
 
+  function clearToast(state) {
+    if (state.toastTimerId) {
+      clearTimeout(state.toastTimerId);
+      state.toastTimerId = null;
+    }
+    if (state.toastNode && state.toastNode.parentNode) {
+      state.toastNode.parentNode.removeChild(state.toastNode);
+    }
+    state.toastNode = null;
+  }
+
+  function showPlacementToast(selector, lines) {
+    const state = getPanelState(selector);
+    clearToast(state);
+
+    const toast = document.createElement("div");
+    toast.className = "panel";
+    toast.style.position = "fixed";
+    toast.style.left = "50%";
+    toast.style.bottom = "20px";
+    toast.style.transform = "translateX(-50%)";
+    toast.style.width = "calc(100% - 32px)";
+    toast.style.maxWidth = "460px";
+    toast.style.zIndex = "9998";
+    toast.style.pointerEvents = "none";
+    toast.style.opacity = "0";
+    toast.style.transition = "opacity 220ms ease";
+    toast.style.textAlign = "center";
+    toast.innerHTML = lines.map(function (line) {
+      return `<p>${escapeHtml(line)}</p>`;
+    }).join("");
+
+    document.body.appendChild(toast);
+    state.toastNode = toast;
+
+    requestAnimationFrame(function () {
+      toast.style.opacity = "1";
+    });
+
+    state.toastTimerId = setTimeout(function () {
+      toast.style.opacity = "0";
+      setTimeout(function () {
+        if (toast.parentNode) toast.parentNode.removeChild(toast);
+        if (state.toastNode === toast) state.toastNode = null;
+      }, 220);
+      state.toastTimerId = null;
+    }, 1500);
+  }
+
+  function stopCompletionOverlay(selector) {
+    const state = getPanelState(selector);
+    if (state.completionTimerId) {
+      clearTimeout(state.completionTimerId);
+      state.completionTimerId = null;
+    }
+    if (state.completionOverlayNode && state.completionOverlayNode.parentNode) {
+      state.completionOverlayNode.parentNode.removeChild(state.completionOverlayNode);
+    }
+    state.completionOverlayNode = null;
+  }
+
+  function runCompletionOverlay(selector, onComplete) {
+    const state = getPanelState(selector);
+    stopCompletionOverlay(selector);
+
+    const overlay = document.createElement("div");
+    overlay.setAttribute("role", "button");
+    overlay.setAttribute("aria-label", "Skip and continue");
+    overlay.style.position = "fixed";
+    overlay.style.inset = "0";
+    overlay.style.background = "rgba(20, 13, 28, 0.88)";
+    overlay.style.display = "flex";
+    overlay.style.alignItems = "center";
+    overlay.style.justifyContent = "center";
+    overlay.style.padding = "24px";
+    overlay.style.zIndex = "9999";
+    overlay.style.opacity = "0";
+    overlay.style.transition = "opacity 300ms ease";
+
+    const panel = document.createElement("div");
+    panel.className = "panel";
+    panel.style.maxWidth = "560px";
+    panel.style.width = "100%";
+    panel.style.textAlign = "center";
+    panel.innerHTML =
+      '<h2>The cards are laid before you.</h2>' +
+      '<p>What&rsquo;s next is up to you</p>';
+
+    overlay.appendChild(panel);
+    document.body.appendChild(overlay);
+    state.completionOverlayNode = overlay;
+
+    requestAnimationFrame(function () {
+      overlay.style.opacity = "1";
+    });
+
+    let finished = false;
+    function finish() {
+      if (finished) return;
+      finished = true;
+      if (state.completionTimerId) {
+        clearTimeout(state.completionTimerId);
+        state.completionTimerId = null;
+      }
+      overlay.style.opacity = "0";
+      setTimeout(function () {
+        if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+        if (state.completionOverlayNode === overlay) state.completionOverlayNode = null;
+        onComplete();
+      }, 300);
+    }
+
+    overlay.addEventListener("click", finish);
+    state.completionTimerId = setTimeout(finish, 1500);
+  }
+
   function renderSpreadPanel(selector) {
     const container = document.querySelector(selector);
     if (!container) return;
 
     const spread = getSpread();
     const cardMeta = getCardMetaFromPage();
+    const panelState = getPanelState(selector);
 
     if (!spread) {
-      container.innerHTML = "";
+      panelState.lastSpreadKey = "";
+      panelState.justPlaced = false;
+      panelState.placedLabel = "";
+      panelState.message = "";
+      panelState.placing = false;
+
+      let html = '<div class="panel">';
+      html += '<h2>Spread</h2>';
+      html += '<p data-role="spread-message" class="nfc-progress"></p>';
+      html += '<p>Start a Spread</p>';
+      html += '<div class="list">';
+      html += '<label for="spread-type-select">Spread type</label>';
+      html += `<select id="spread-type-select">${spreadTypeOptions(panelState.form.type)}</select>`;
+      html += '<label for="spread-intention">Intention (optional)</label>';
+      html += `<input id="spread-intention" type="text" placeholder="What do you want clarity on today?" value="${escapeHtml(panelState.form.intention)}" />`;
+      html += '<p>This will appear at the top of your spread summary.</p>';
+
+      if (panelState.form.type === 'decision') {
+        html += '<label for="decision-option-a">Option A</label>';
+        html += `<input id="decision-option-a" type="text" placeholder="Name Option A" value="${escapeHtml(panelState.form.optionA)}" />`;
+        html += '<label for="decision-option-b">Option B</label>';
+        html += `<input id="decision-option-b" type="text" placeholder="Name Option B" value="${escapeHtml(panelState.form.optionB)}" />`;
+      }
+
+      html += `<button type="button" class="button" data-action="begin"${decisionFieldsValid(panelState) ? '' : ' disabled'}>Begin Reading</button>`;
+      html += '</div></div>';
+      container.innerHTML = html;
+
+      const typeSelect = container.querySelector('#spread-type-select');
+      if (typeSelect) {
+        typeSelect.addEventListener('change', function () {
+          readFormFromDom(container, panelState);
+          renderSpreadPanel(selector);
+        });
+      }
+
+      container.addEventListener('input', function () {
+        readFormFromDom(container, panelState);
+        const beginButton = container.querySelector('[data-action="begin"]');
+        if (beginButton) beginButton.disabled = !decisionFieldsValid(panelState);
+      });
+
+      const beginButton = container.querySelector('[data-action="begin"]');
+      if (beginButton) {
+        beginButton.addEventListener('click', function () {
+          readFormFromDom(container, panelState);
+          if (!decisionFieldsValid(panelState)) {
+            setMessage(container, 'Please fill Option A and Option B first.');
+            return;
+          }
+
+          runGroundingTransition(selector, function () {
+            const started = startSpread(panelState.form.type, buildStartMeta(panelState));
+            if (!started) {
+              renderSpreadPanel(selector);
+              setMessage(container, 'Please complete required fields before starting this spread.');
+              return;
+            }
+            renderSpreadPanel(selector);
+          });
+        });
+      }
+
       return;
     }
 
-    const panelState = getPanelState(selector);
     const spreadKey = `${spread.type}:${spread.createdAt}`;
     if (panelState.lastSpreadKey !== spreadKey) {
       panelState.lastSpreadKey = spreadKey;
       panelState.placedLabel = "";
       panelState.justPlaced = false;
       panelState.message = "";
+      panelState.placing = false;
     }
 
     const progress = getProgress(spread);
@@ -420,7 +608,7 @@
       if (panelState.justPlaced && panelState.placedLabel) {
         html += `<button type="button" class="button" data-action="place" disabled>✓ Placed in ${escapeHtml(panelState.placedLabel)}</button>`;
       } else {
-        html += '<button type="button" class="button" data-action="place">Place This Card</button>';
+        html += `<button type="button" class="button" data-action="place"${panelState.placing ? ' disabled' : ''}>Place This Card</button>`;
       }
 
       if (panelState.message) {
@@ -436,21 +624,43 @@
     container.innerHTML = html;
 
     const placeButton = container.querySelector('[data-action="place"]');
-    if (placeButton && cardMeta && !panelState.justPlaced) {
+    if (placeButton && cardMeta && !panelState.justPlaced && !panelState.placing) {
       placeButton.addEventListener('click', function () {
+        if (panelState.placing) return;
+        panelState.placing = true;
+
         const result = addCardToSpread(cardMeta);
         if (!result.ok) {
           panelState.message = result.message;
           panelState.justPlaced = false;
           panelState.placedLabel = "";
+          panelState.placing = false;
           renderSpreadPanel(selector);
           return;
         }
 
+        const latestSpread = getSpread();
+        const latestProgress = getProgress(latestSpread);
+        const total = latestProgress.total;
+        const placed = latestProgress.placed;
+
         panelState.justPlaced = true;
         panelState.placedLabel = getPositionLabel(spread.type, result.position);
-        panelState.message = 'Tap your next card.';
+        panelState.message = '';
+        panelState.placing = false;
         renderSpreadPanel(selector);
+
+        if (total > 2 && placed >= 2) {
+          showPlacementToast(selector, ['Continue']);
+        } else {
+          showPlacementToast(selector, ['It rests there.', 'Continue when ready.']);
+        }
+
+        if (placed >= total) {
+          runCompletionOverlay(selector, function () {
+            window.location.href = `${BASE_PATH}/spread/`;
+          });
+        }
       });
     }
   }
