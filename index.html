@@ -24,11 +24,8 @@
         <div class="hero-card">
           <span class="tag">A Digital Ritual</span>
           <h1>Quick Draw</h1>
-          <p>Touch the card.</p>
-          <p>Open the veil.</p>
-          <p>Listen.</p>
-          <p>This is not fortune-telling.</p>
-          <p>It is reflection made visible.</p>
+          <p>Touch the card. Open the veil. Listen.</p>
+          <p>This is reflection, not fortune-telling.</p>
           <div class="list">
             <a class="button" href="/Quick-Draw-Tarot/spread/">Begin a Reading</a>
             <a class="button secondary" href="/Quick-Draw-Tarot/cards/">Enter the Cards</a>
@@ -38,61 +35,19 @@
 
       <section class="section">
         <div class="panel">
-          <h2>The Ritual</h2>
-          <p>Tarot asks for stillness.</p>
-          <p>Before you tap, pause.</p>
-          <p>Name what you seek.</p>
-          <p>Take one steady breath.</p>
-          <p>Each card carries:</p>
-          <div class="list">
-            <p>• A truth</p>
-            <p>• A tension</p>
-            <p>• A possibility</p>
-          </div>
-          <p>You bring the meaning.</p>
+          <h2>Choose a Spread</h2>
+          <div id="homepage-spread-picker"></div>
         </div>
       </section>
-
-      <section class="section">
-        <div class="panel">
-          <h2>Choose Your Path</h2>
-          <p>Not every question requires the same depth.</p>
-          <div class="list">
-            <p><strong>Daily Reading</strong><br />A single thread for today.</p>
-            <p><strong>Past · Present · Future</strong><br />See the arc you are walking.</p>
-            <p><strong>Hermit’s Guidance</strong><br />Step inward. Light the hidden path.</p>
-            <p><strong>Clarity</strong><br />Release confusion. Keep what matters.</p>
-            <p><strong>Decision</strong><br />Weigh the roads before you.</p>
-            <p><strong>Shadow Work</strong><br />Face what follows you.</p>
-            <p><strong>Year Ahead</strong><br />Trace the turning of your seasons.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="panel">
-          <h2>A Quiet Reminder</h2>
-          <p>Tarot reflects energy.</p>
-          <p>It does not decide your life.</p>
-          <p>If a card feels heavy, pause.</p>
-          <p>Breathe.</p>
-          <p>Look for transformation, not threat.</p>
-          <p>You always retain agency.</p>
-        </div>
-      </section>
-
-      <section class="section" id="home-spread-status"></section>
 
       <footer class="footer">
-        <p>The cards speak in symbols.</p>
-        <p>You answer in action.</p>
+        <p>This deck reflects. You answer in action.</p>
       </footer>
     </main>
 
     <script src="/Quick-Draw-Tarot/assets/spread.js"></script>
-    <script src="/Quick-Draw-Tarot/assets/ui.js"></script>
     <script>
-      window.TarotUI.renderHomeSpreadStatus("#home-spread-status");
+      window.TarotSpread.renderSpreadPanel("#homepage-spread-picker");
     </script>
   </body>
 </html>
