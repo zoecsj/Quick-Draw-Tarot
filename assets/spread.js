@@ -73,6 +73,16 @@
     },
   };
 
+  const SPREAD_PICKER_OPTIONS = {
+    daily: { title: "Daily Reading (1 Card)", helper: "For grounding and focus." },
+    "past-present-future": { title: "Past / Present / Future", helper: "For understanding momentum." },
+    hermit: { title: "Hermit’s Guidance", helper: "For self-reflection and inner clarity." },
+    clarity: { title: "Clarity Spread", helper: "When you feel overwhelmed." },
+    decision: { title: "Decision Spread", helper: "When choosing between two paths." },
+    "shadow-work": { title: "Shadow Work", helper: "When something triggers you or repeats." },
+    "year-ahead": { title: "Year Ahead", helper: "For seasonal themes and long-term focus." },
+  };
+
   function getSpreadType(type) {
     return SPREAD_TYPES[type] || null;
   }
@@ -288,6 +298,7 @@
         toastTimerId: null,
         completionOverlayNode: null,
         completionTimerId: null,
+        validationMessage: "",
       };
     }
     return panelStateBySelector[selector];
@@ -527,60 +538,93 @@
       panelState.message = "";
       panelState.placing = false;
 
+      const selectedType = panelState.form.type || "past-present-future";
+      const beginDisabled = selectedType === 'decision' && !decisionFieldsValid(panelState);
+
       let html = '<div class="panel">';
       html += '<h2>Spread</h2>';
       html += '<p data-role="spread-message" class="nfc-progress"></p>';
-      html += '<p>Start a Spread</p>';
-      html += '<div class="list">';
-      html += '<label for="spread-type-select">Spread type</label>';
-      html += `<select id="spread-type-select">${spreadTypeOptions(panelState.form.type)}</select>`;
-      html += '<label for="spread-intention">Intention (optional)</label>';
-      html += `<input id="spread-intention" type="text" placeholder="What do you want clarity on today?" value="${escapeHtml(panelState.form.intention)}" />`;
-      html += '<p>This will appear at the top of your spread summary.</p>';
+      html += '<div class="grid spread-picker-grid">';
 
-      if (panelState.form.type === 'decision') {
+      Object.keys(SPREAD_PICKER_OPTIONS).forEach(function (type) {
+        const item = SPREAD_PICKER_OPTIONS[type];
+        const selectedClass = selectedType === type ? ' selected' : '';
+        html += `<button type="button" class="card spread-option${selectedClass}" data-action="pick-spread" data-spread-type="${type}"><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.helper)}</p></button>`;
+      });
+
+      html += '</div>';
+
+      if (selectedType === 'decision') {
+        html += '<div class="list">';
         html += '<label for="decision-option-a">Option A</label>';
         html += `<input id="decision-option-a" type="text" placeholder="Name Option A" value="${escapeHtml(panelState.form.optionA)}" />`;
         html += '<label for="decision-option-b">Option B</label>';
         html += `<input id="decision-option-b" type="text" placeholder="Name Option B" value="${escapeHtml(panelState.form.optionB)}" />`;
+        if (panelState.validationMessage) {
+          html += `<p class="nfc-progress">${escapeHtml(panelState.validationMessage)}</p>`;
+        }
+        html += '</div>';
       }
 
-      html += `<button type="button" class="button" data-action="begin"${decisionFieldsValid(panelState) ? '' : ' disabled'}>Begin Reading</button>`;
-      html += '</div></div>';
+      html += '<div class="list">';
+      html += '<label for="spread-intention">Intention (optional)</label>';
+      html += `<input id="spread-intention" type="text" placeholder="What do you want clarity on today?" value="${escapeHtml(panelState.form.intention)}" />`;
+      html += `<button type="button" class="button" data-action="begin"${beginDisabled ? ' disabled' : ''}>Begin Reading</button>`;
+      html += '</div>';
+      html += '</div>';
+
       container.innerHTML = html;
 
-      const typeSelect = container.querySelector('#spread-type-select');
-      if (typeSelect) {
-        typeSelect.addEventListener('change', function () {
-          readFormFromDom(container, panelState);
+      const beginReading = function () {
+        if (panelState.phase === 'transition') return;
+        if (!decisionFieldsValid(panelState)) {
+          panelState.validationMessage = 'Please fill Option A and Option B.';
+          renderSpreadPanel(selector);
+          return;
+        }
+
+        panelState.validationMessage = '';
+        runGroundingTransition(selector, function () {
+          const started = startSpread(panelState.form.type, buildStartMeta(panelState));
+          if (!started) {
+            renderSpreadPanel(selector);
+            setMessage(container, 'Please complete required fields before starting this spread.');
+            return;
+          }
+          window.location.href = `${BASE_PATH}/spread/`;
+        });
+      };
+
+      const pickerButtons = container.querySelectorAll('[data-action="pick-spread"]');
+      pickerButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          const pickedType = button.getAttribute('data-spread-type');
+          const wasSelected = panelState.form.type === pickedType;
+          panelState.form.type = pickedType;
+          panelState.validationMessage = '';
+
+          if (wasSelected) {
+            readFormFromDom(container, panelState);
+            beginReading();
+            return;
+          }
+
           renderSpreadPanel(selector);
         });
-      }
+      });
 
       container.addEventListener('input', function () {
         readFormFromDom(container, panelState);
+        panelState.validationMessage = '';
         const beginButton = container.querySelector('[data-action="begin"]');
-        if (beginButton) beginButton.disabled = !decisionFieldsValid(panelState);
+        if (beginButton) beginButton.disabled = panelState.form.type === 'decision' && !decisionFieldsValid(panelState);
       });
 
       const beginButton = container.querySelector('[data-action="begin"]');
       if (beginButton) {
         beginButton.addEventListener('click', function () {
           readFormFromDom(container, panelState);
-          if (!decisionFieldsValid(panelState)) {
-            setMessage(container, 'Please fill Option A and Option B first.');
-            return;
-          }
-
-          runGroundingTransition(selector, function () {
-            const started = startSpread(panelState.form.type, buildStartMeta(panelState));
-            if (!started) {
-              renderSpreadPanel(selector);
-              setMessage(container, 'Please complete required fields before starting this spread.');
-              return;
-            }
-            renderSpreadPanel(selector);
-          });
+          beginReading();
         });
       }
 

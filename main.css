@@ -196,6 +196,31 @@ header {
   margin-top: 16px;
 }
 
+
+.spread-picker-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.spread-option {
+  appearance: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+}
+
+.spread-option.selected {
+  border-color: #e6c57a;
+  box-shadow: 0 0 0 1px rgba(230, 197, 122, 0.35), var(--shadow);
+}
+
+@media (min-width: 721px) {
+  .spread-picker-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
 .footer {
   margin-top: 64px;
   padding-top: 24px;
