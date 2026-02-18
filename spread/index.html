@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Spread Summary | Quick Draw Tarot</title>
+    <title>Holding Your Spread | Quick Draw Tarot</title>
     <link rel="stylesheet" href="/Quick-Draw-Tarot/main.css" />
   </head>
   <body>
@@ -22,109 +22,170 @@
     <main>
       <section class="section">
         <div class="panel">
-          <span class="tag" id="spread-type-tag">Spread</span>
-          <h1>Spread Summary</h1>
-          <p id="spread-type-description">Your spread is stored in localStorage and updates each time a card is added.</p>
+          <span class="tag" id="spread-type-tag">Spread Hub</span>
+          <h1>Holding Your Spread</h1>
+          <p>This is where your reading gathers.</p>
         </div>
       </section>
 
-      <section class="section" id="spread-meta-panels"></section>
+      <section class="section" id="spread-hub-state"></section>
 
-      <section class="section">
+      <section class="section" id="spread-summary-section" hidden>
         <div class="grid" id="spread-summary-grid"></div>
-      </section>
-
-      <section class="section">
-        <div class="panel">
-          <div class="list">
-            <button class="button" type="button" id="clear-spread">Clear spread</button>
-            <button class="button secondary" type="button" id="start-new-spread">Start new spread</button>
-            <a class="button secondary" href="/Quick-Draw-Tarot/cards/">Browse cards</a>
-          </div>
-        </div>
       </section>
     </main>
 
     <script src="/Quick-Draw-Tarot/assets/spread.js"></script>
-    <script src="/Quick-Draw-Tarot/assets/ui.js"></script>
     <script>
-      function updateSpreadHeader(spread) {
-        const tag = document.getElementById('spread-type-tag');
-        const description = document.getElementById('spread-type-description');
+      const BASE_PATH = window.TarotSpread.BASE_PATH;
 
-        if (!spread) {
-          tag.textContent = 'No active spread';
-          description.textContent = 'Start a spread from any card page, then return here to view the summary.';
-          return;
-        }
-
-        const type = window.TarotSpread.SPREAD_TYPES[spread.type];
-        tag.textContent = type ? type.label : spread.type;
-        description.textContent = 'This spread is stored in localStorage and updates each time a card is added.';
+      function escapeHtml(value) {
+        return String(value || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/\"/g, '&quot;')
+          .replace(/'/g, '&#39;');
       }
 
-      function renderMetaPanels(spread) {
-        const container = document.getElementById('spread-meta-panels');
+      function updateTag(spread) {
+        const tag = document.getElementById('spread-type-tag');
         if (!spread) {
-          container.innerHTML = '';
+          tag.textContent = 'Spread Hub';
           return;
         }
 
-        const meta = spread.meta || {};
-        const canEditIntention = !window.TarotSpread.hasPlacedCards(spread);
+        const spreadType = window.TarotSpread.SPREAD_TYPES[spread.type];
+        tag.textContent = spreadType ? spreadType.label : spread.type;
+      }
 
-        let html = '';
+      function clearSpreadAndRender(options) {
+        window.TarotSpread.clearSpread();
+        if (options && options.redirectHome) {
+          window.location.href = `${BASE_PATH}/`;
+          return;
+        }
+        render();
+      }
 
-        if (meta.intention) {
-          html += `
-            <div class="panel">
-              <h2>Intention</h2>
-              <p>${meta.intention}</p>
-            </div>
-          `;
+      function bindCommonActions() {
+        const endReading = document.getElementById('end-reading');
+        if (endReading) {
+          endReading.addEventListener('click', function () {
+            clearSpreadAndRender({ redirectHome: true });
+          });
         }
 
-        if (spread.type === 'decision' && (meta.optionA || meta.optionB)) {
-          html += `
-            <div class="panel">
-              <h2>Decision Focus</h2>
-              <p><strong>Option A:</strong> ${meta.optionA || ''}</p>
-              <p><strong>Option B:</strong> ${meta.optionB || ''}</p>
-            </div>
-          `;
+        const clearSpread = document.getElementById('clear-spread-link');
+        if (clearSpread) {
+          clearSpread.addEventListener('click', function (event) {
+            event.preventDefault();
+            clearSpreadAndRender({ redirectHome: false });
+          });
         }
 
-        if (canEditIntention) {
-          html += `
-            <div class="panel">
-              <h2>Edit intention</h2>
-              <div class="list">
-                <label for="edit-intention-input">Intention (optional)</label>
-                <input id="edit-intention-input" type="text" placeholder="What do you want clarity on today?" value="${meta.intention || ''}" />
-                <button class="button" type="button" id="save-intention">Save</button>
-              </div>
-            </div>
-          `;
-        }
-
-        container.innerHTML = html;
-
-        const saveButton = document.getElementById('save-intention');
-        if (saveButton) {
-          saveButton.addEventListener('click', function () {
-            const value = document.getElementById('edit-intention-input').value;
-            window.TarotSpread.updateMeta({ intention: value });
-            render();
+        const startAnother = document.getElementById('start-another-reading');
+        if (startAnother) {
+          startAnother.addEventListener('click', function () {
+            clearSpreadAndRender({ redirectHome: true });
           });
         }
       }
 
-      function render() {
-        const spread = window.TarotSpread.getSpread();
-        updateSpreadHeader(spread);
-        renderMetaPanels(spread);
+      function renderNoSpreadState() {
+        const hub = document.getElementById('spread-hub-state');
+        document.getElementById('spread-summary-section').hidden = true;
 
-        fetch('/Quick-Draw-Tarot/data/cards.json')
+        hub.innerHTML = `
+          <div class="panel">
+            <h2>No active spread.</h2>
+            <p>Start a reading on the home page, then tap each card to place it.</p>
+            <div class="list">
+              <a class="button" href="${BASE_PATH}/">Return Home</a>
+              <a class="button secondary" href="${BASE_PATH}/cards/">Browse Cards</a>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderInProgressState(spread) {
+        const hub = document.getElementById('spread-hub-state');
+        document.getElementById('spread-summary-section').hidden = true;
+
+        const spreadType = window.TarotSpread.SPREAD_TYPES[spread.type];
+        const spreadLabel = spreadType ? spreadType.label : spread.type;
+        const progress = window.TarotSpread.getProgress(spread);
+        const next = window.TarotSpread.nextOpenPosition(spread);
+        const nextLabel = next ? window.TarotSpread.getPositionLabel(spread.type, next) : '—';
+
+        hub.innerHTML = `
+          <div class="panel">
+            <h2>Spread in Progress</h2>
+            <p><strong>${escapeHtml(spreadLabel)}</strong></p>
+            <p>Placed ${progress.placed} of ${progress.total}</p>
+            <p><strong>Next: ${escapeHtml(nextLabel)}</strong></p>
+            <p>Tap the card you want to place in this position.</p>
+            <div class="list">
+              <a class="button" href="${BASE_PATH}/cards/">Browse Cards</a>
+              <button class="button secondary" type="button" id="end-reading">End Reading</button>
+              <a href="#" id="clear-spread-link">Clear Spread</a>
+            </div>
+          </div>
+        `;
+
+        bindCommonActions();
+      }
+
+      function renderCompletedSummary(spread, cardDetails) {
+        const container = document.getElementById('spread-summary-grid');
+        const positions = window.TarotSpread.getPositionList(spread);
+
+        container.innerHTML = positions
+          .map(function (position) {
+            const placed = spread.positions[position.key];
+            if (!placed) {
+              return `
+                <article class="card">
+                  <h3>${escapeHtml(position.label)}</h3>
+                  <p>Empty — tap a card to add.</p>
+                </article>
+              `;
+            }
+
+            const details = cardDetails[placed.slug] || {};
+            const reflectionLine = details.reflection
+              ? `<p><strong>Reflection:</strong> ${escapeHtml(details.reflection)}</p>`
+              : '';
+
+            return `
+              <article class="card">
+                <h3>${escapeHtml(position.label)}</h3>
+                <a href="${BASE_PATH}${escapeHtml(placed.path)}">${escapeHtml(placed.title)}</a>
+                <p>${escapeHtml(details.description || '')}</p>
+                ${reflectionLine}
+              </article>
+            `;
+          })
+          .join('');
+      }
+
+      function renderCompletedState(spread) {
+        const hub = document.getElementById('spread-hub-state');
+        document.getElementById('spread-summary-section').hidden = false;
+
+        hub.innerHTML = `
+          <div class="panel">
+            <h2>The cards are laid before you.</h2>
+            <p>What’s next is up to you</p>
+            <div class="list">
+              <button class="button" type="button" id="start-another-reading">Start Another Reading</button>
+              <a class="button secondary" href="${BASE_PATH}/cards/">Browse Cards</a>
+              <a href="#" id="clear-spread-link">Clear Spread</a>
+            </div>
+          </div>
+        `;
+
+        fetch(`${BASE_PATH}/data/cards.json`)
           .then(function (response) {
             return response.json();
           })
@@ -133,26 +194,32 @@
             dataset.cards.forEach(function (card) {
               details[card.slug] = {
                 description: card.description,
-                keywords: card.keywords.join(' · '),
-                upright: card.upright,
-                reversed: card.reversed,
                 reflection: card.prompt,
               };
             });
-
-            window.TarotUI.renderSpreadSummary('#spread-summary-grid', details);
+            renderCompletedSummary(spread, details);
           });
+
+        bindCommonActions();
       }
 
-      document.getElementById('clear-spread').addEventListener('click', function () {
-        window.TarotSpread.clearSpread();
-        render();
-      });
+      function render() {
+        const spread = window.TarotSpread.getSpread();
+        updateTag(spread);
 
-      document.getElementById('start-new-spread').addEventListener('click', function () {
-        window.TarotSpread.clearSpread();
-        render();
-      });
+        if (!spread) {
+          renderNoSpreadState();
+          return;
+        }
+
+        const progress = window.TarotSpread.getProgress(spread);
+        if (progress.placed < progress.total) {
+          renderInProgressState(spread);
+          return;
+        }
+
+        renderCompletedState(spread);
+      }
 
       render();
     </script>
