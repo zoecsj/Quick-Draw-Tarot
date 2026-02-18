@@ -46,6 +46,7 @@ function cardPageHtml(card) {
           <span class="tag">${escapeHtml(card.tag)}</span>
           <h1>${escapeHtml(card.title)}</h1>
           <p>${escapeHtml(card.description)}</p>
+          <div id="spread-panel"></div>
         </div>
       </section>
 
@@ -73,7 +74,6 @@ function cardPageHtml(card) {
         </div>
       </section>
 
-      <section class="section" id="spread-panel"></section>
     </main>
 
     <script type="application/json" id="card-meta">

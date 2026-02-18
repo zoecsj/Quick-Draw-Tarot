@@ -392,135 +392,69 @@
     if (!container) return;
 
     const spread = getSpread();
-    const open = spread ? nextOpenPosition(spread) : null;
     const cardMeta = getCardMetaFromPage();
-    const panelState = getPanelState(selector);
-
-    if (spread && panelState.phase !== 'idle') {
-      stopGroundingTransition(selector);
-    }
-
-    let html = '<div class="panel">';
-    html += '<h2>Spread</h2>';
-    html += '<p data-role="spread-message" class="nfc-progress"></p>';
 
     if (!spread) {
-      const beginDisabled = !decisionFieldsValid(panelState) ? ' disabled' : '';
+      container.innerHTML = "";
+      return;
+    }
 
-      html += '<p>Start a Spread</p>';
-      html += '<div class="list">';
-      html += '<label for="spread-type-select">Spread type</label>';
-      html += `<select id="spread-type-select">${spreadTypeOptions(panelState.form.type)}</select>`;
-      html += '<label for="spread-intention">Intention (optional)</label>';
-      html += `<input id="spread-intention" type="text" placeholder="What do you want clarity on today?" value="${escapeHtml(panelState.form.intention)}" />`;
-      html += '<p>This will appear at the top of your spread summary.</p>';
+    const panelState = getPanelState(selector);
+    const spreadKey = `${spread.type}:${spread.createdAt}`;
+    if (panelState.lastSpreadKey !== spreadKey) {
+      panelState.lastSpreadKey = spreadKey;
+      panelState.placedLabel = "";
+      panelState.justPlaced = false;
+      panelState.message = "";
+    }
 
-      if (panelState.form.type === 'decision') {
-        html += `<label for="decision-option-a">Option A</label>`;
-        html += `<input id="decision-option-a" type="text" placeholder="Name Option A" value="${escapeHtml(panelState.form.optionA)}" />`;
-        html += `<label for="decision-option-b">Option B</label>`;
-        html += `<input id="decision-option-b" type="text" placeholder="Name Option B" value="${escapeHtml(panelState.form.optionB)}" />`;
-      }
+    const progress = getProgress(spread);
+    const open = nextOpenPosition(spread);
 
-      html += `<button type="button" class="button" data-action="begin"${beginDisabled}>Begin Reading</button>`;
-      html += '</div>';
-    } else {
-      const spreadType = getSpreadType(spread.type);
-      const spreadLabel = spreadType ? spreadType.label : spread.type;
-      const progress = getProgress(spread);
-      html += `<p>Spread: ${spreadLabel}</p>`;
-      if (spread.meta && spread.meta.intention) {
-        html += `<p>Intention: ${spread.meta.intention}</p>`;
-      }
+    let html = '<div class="panel">';
 
-      if (!open) {
-        html += '<p>Spread complete.</p>';
-        html += `<p>${progress.placed} of ${progress.total} cards placed.</p>`;
-        html += `<a class="button secondary" href="${BASE_PATH}/spread/">View spread summary</a> `;
-        html += '<button type="button" class="button" data-action="restart">Start new spread</button> ';
-        html += '<button type="button" class="button secondary" data-action="end">End spread</button>';
+    if (open) {
+      html += `<p><strong>Next Position:</strong> ${escapeHtml(getPositionLabel(spread.type, open))}</p>`;
+      html += `<p>Placed ${progress.placed} of ${progress.total}</p>`;
+
+      if (panelState.justPlaced && panelState.placedLabel) {
+        html += `<button type="button" class="button" data-action="place" disabled>✓ Placed in ${escapeHtml(panelState.placedLabel)}</button>`;
       } else {
-        html += `<p>Spread in progress: Next position = ${getPositionLabel(spread.type, open)}</p>`;
-        html += `<p>${progress.placed} of ${progress.total} cards placed.</p>`;
-        html += '<button type="button" class="button" data-action="add">Add this card</button> ';
-        html += `<a class="button secondary" href="${BASE_PATH}/spread/">View spread</a> `;
-        html += '<button type="button" class="button secondary" data-action="end">End spread</button>';
+        html += '<button type="button" class="button" data-action="place">Place This Card</button>';
       }
+
+      if (panelState.message) {
+        html += `<p class="nfc-progress">${escapeHtml(panelState.message)}</p>`;
+      }
+    } else {
+      html += '<p><strong>Next Position:</strong> Spread complete</p>';
+      html += `<p>Placed ${progress.placed} of ${progress.total}</p>`;
+      html += `<a class="button secondary" href="${BASE_PATH}/spread/">View Spread</a>`;
     }
 
     html += '</div>';
     container.innerHTML = html;
 
-    const beginButton = container.querySelector('[data-action="begin"]');
-    const addButton = container.querySelector('[data-action="add"]');
-    const endButton = container.querySelector('[data-action="end"]');
-    const restartButton = container.querySelector('[data-action="restart"]');
-
-    const typeSelect = container.querySelector('#spread-type-select');
-    if (typeSelect) {
-      typeSelect.addEventListener('change', function () {
-        readFormFromDom(container, panelState);
-        renderSpreadPanel(selector);
-      });
-    }
-
-    if (beginButton || container.querySelector('#spread-intention') || container.querySelector('#decision-option-a') || container.querySelector('#decision-option-b')) {
-      container.addEventListener('input', function () {
-        readFormFromDom(container, panelState);
-        const button = container.querySelector('[data-action="begin"]');
-        if (button) {
-          button.disabled = !decisionFieldsValid(panelState);
-        }
-      });
-    }
-
-    if (beginButton) {
-      beginButton.addEventListener('click', function () {
-        readFormFromDom(container, panelState);
-        if (!decisionFieldsValid(panelState)) {
-          setMessage(container, 'Please fill Option A and Option B first.');
+    const placeButton = container.querySelector('[data-action="place"]');
+    if (placeButton && cardMeta && !panelState.justPlaced) {
+      placeButton.addEventListener('click', function () {
+        const result = addCardToSpread(cardMeta);
+        if (!result.ok) {
+          panelState.message = result.message;
+          panelState.justPlaced = false;
+          panelState.placedLabel = "";
+          renderSpreadPanel(selector);
           return;
         }
 
-        runGroundingTransition(selector, function () {
-          const started = startSpread(panelState.form.type, buildStartMeta(panelState));
-          if (!started) {
-            renderSpreadPanel(selector);
-            setMessage(container, 'Please complete required fields before starting this spread.');
-            return;
-          }
-
-          window.location.href = `${BASE_PATH}/spread/`;
-        });
-      });
-    }
-
-    if (addButton && cardMeta) {
-      addButton.addEventListener('click', function () {
-        const result = addCardToSpread(cardMeta);
+        panelState.justPlaced = true;
+        panelState.placedLabel = getPositionLabel(spread.type, result.position);
+        panelState.message = 'Tap your next card.';
         renderSpreadPanel(selector);
-        setMessage(container, result.message);
-      });
-    }
-
-    if (endButton) {
-      endButton.addEventListener('click', function () {
-        clearSpread();
-        stopGroundingTransition(selector);
-        renderSpreadPanel(selector);
-        setMessage(container, 'Spread cleared.');
-      });
-    }
-
-    if (restartButton) {
-      restartButton.addEventListener('click', function () {
-        clearSpread();
-        stopGroundingTransition(selector);
-        renderSpreadPanel(selector);
-        setMessage(container, 'Start a new spread below.');
       });
     }
   }
+
 
   window.TarotSpread = {
     BASE_PATH,
