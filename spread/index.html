@@ -110,7 +110,7 @@
 
       function renderInProgressState(spread) {
         const hub = document.getElementById('spread-hub-state');
-        document.getElementById('spread-summary-section').hidden = true;
+        document.getElementById('spread-summary-section').hidden = false;
 
         const spreadType = window.TarotSpread.SPREAD_TYPES[spread.type];
         const spreadLabel = spreadType ? spreadType.label : spread.type;
@@ -133,10 +133,25 @@
           </div>
         `;
 
+        fetch(`${BASE_PATH}/data/cards.json`)
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (dataset) {
+            const details = {};
+            dataset.cards.forEach(function (card) {
+              details[card.slug] = {
+                description: card.description,
+                reflection: card.prompt,
+              };
+            });
+            renderSpreadSummary(spread, details);
+          });
+
         bindCommonActions();
       }
 
-      function renderCompletedSummary(spread, cardDetails) {
+      function renderSpreadSummary(spread, cardDetails) {
         const container = document.getElementById('spread-summary-grid');
         const positions = window.TarotSpread.getPositionList(spread);
 
@@ -147,6 +162,7 @@
               return `
                 <article class="card">
                   <h3>${escapeHtml(position.label)}</h3>
+                  <p>${escapeHtml(position.question || '')}</p>
                   <p>Empty — tap a card to add.</p>
                 </article>
               `;
@@ -160,6 +176,7 @@
             return `
               <article class="card">
                 <h3>${escapeHtml(position.label)}</h3>
+                <p>${escapeHtml(position.question || '')}</p>
                 <a href="${BASE_PATH}${escapeHtml(placed.path)}">${escapeHtml(placed.title)}</a>
                 <p>${escapeHtml(details.description || '')}</p>
                 ${reflectionLine}
@@ -197,7 +214,7 @@
                 reflection: card.prompt,
               };
             });
-            renderCompletedSummary(spread, details);
+            renderSpreadSummary(spread, details);
           });
 
         bindCommonActions();

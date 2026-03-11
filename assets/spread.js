@@ -6,69 +6,149 @@
   const SPREAD_TYPES = {
     daily: {
       label: "Daily Reading",
-      positions: [{ key: "card", label: "Your Card" }],
+      positions: [
+        {
+          key: "focus",
+          label: "Focus",
+          question: "What energy or theme is most important to notice today?",
+        },
+      ],
     },
     "past-present-future": {
       label: "Past / Present / Future",
       positions: [
-        { key: "past", label: "Past" },
-        { key: "present", label: "Present" },
-        { key: "future", label: "Future" },
+        {
+          key: "past",
+          label: "Past",
+          question: "What influence from the past is shaping this situation?",
+        },
+        {
+          key: "present",
+          label: "Present",
+          question: "What is happening now that deserves your attention?",
+        },
+        {
+          key: "future",
+          label: "Future",
+          question: "If things continue as they are, what direction might they move toward?",
+        },
+      ],
+    },
+    clarity: {
+      label: "Clarity Spread",
+      positions: [
+        {
+          key: "know",
+          label: "What you need to know",
+          question: "What truth or insight needs to be recognized?",
+        },
+        {
+          key: "embrace",
+          label: "What to embrace",
+          question: "What energy or perspective would help you move forward?",
+        },
+        {
+          key: "release",
+          label: "What to release",
+          question: "What pattern or belief may be holding you back?",
+        },
+        {
+          key: "next",
+          label: "What comes next",
+          question: "What step or direction is opening ahead?",
+        },
       ],
     },
     hermit: {
       label: "Hermit's Guidance",
       positions: [
-        { key: "dark", label: "Dark – What is the path before you?" },
-        { key: "persona", label: "Persona – What mask do you present?" },
-        { key: "true-self", label: "True Self – Who are you when alone?" },
-        { key: "guiding-light", label: "Guiding Light – Your highest potential" },
+        {
+          key: "dark",
+          label: "Dark",
+          question: "What part of the situation is unclear right now?",
+        },
+        {
+          key: "persona",
+          label: "Persona",
+          question: "What role are you presenting to others?",
+        },
+        {
+          key: "true-self",
+          label: "True Self",
+          question: "What do you genuinely want or feel?",
+        },
+        {
+          key: "guiding-light",
+          label: "Guiding Light",
+          question: "What inner truth could guide you forward?",
+        },
       ],
     },
-    clarity: {
-      label: "Clarity",
+    decision: {
+      label: "Decision Spread",
       positions: [
-        { key: "know", label: "What You Need to Know" },
-        { key: "embrace", label: "What You Need to Embrace" },
-        { key: "release", label: "What You Need to Release" },
-        { key: "next", label: "What’s Next" },
+        {
+          key: "option-a",
+          label: "Option A",
+          question: "What energy surrounds this path?",
+        },
+        {
+          key: "option-b",
+          label: "Option B",
+          question: "What energy surrounds this path?",
+        },
+        {
+          key: "support-a",
+          label: "Support for A",
+          question: "What could help this path succeed?",
+        },
+        {
+          key: "support-b",
+          label: "Support for B",
+          question: "What could help this path succeed?",
+        },
       ],
     },
     "shadow-work": {
       label: "Shadow Work",
       positions: [
-        { key: "trigger", label: "Trigger – What’s activating you right now?" },
-        { key: "shadow", label: "Shadow – What part of you is being protected or hidden?" },
-        { key: "root", label: "Root – Where did this pattern start?" },
-        { key: "lesson", label: "Lesson – What is this trying to teach you?" },
-        { key: "integration", label: "Integration – How can you heal and move forward?" },
-      ],
-    },
-    decision: {
-      label: "Decision",
-      positions: [
-        { key: "option-a", label: "Option A – What you gain" },
-        { key: "option-a-cost", label: "Option A – What it costs" },
-        { key: "option-b", label: "Option B – What you gain" },
-        { key: "option-b-cost", label: "Option B – What it costs" },
-        { key: "guidance", label: "Guidance – Best path or advice right now" },
+        {
+          key: "trigger",
+          label: "The Trigger",
+          question: "What brought this pattern forward?",
+        },
+        {
+          key: "pattern",
+          label: "The Pattern",
+          question: "What repeating behavior is present?",
+        },
+        {
+          key: "lesson",
+          label: "The Lesson",
+          question: "What is this trying to teach you?",
+        },
+        {
+          key: "path-forward",
+          label: "The Path Forward",
+          question: "What could help you move beyond it?",
+        },
       ],
     },
     "year-ahead": {
       label: "Year Ahead",
       positions: [
-        { key: "january", label: "January" },
-        { key: "february", label: "February" },
-        { key: "march", label: "March" },
-        { key: "april", label: "April" },
-        { key: "may", label: "May" },
-        { key: "june", label: "June" },
-        { key: "july", label: "July" },
-        { key: "august", label: "August" },
-        { key: "september", label: "September" },
-        { key: "october", label: "October" },
-        { key: "november", label: "November" },
-        { key: "december", label: "December" },
+        { key: "january", label: "January", question: "What theme may shape this month?" },
+        { key: "february", label: "February", question: "What theme may shape this month?" },
+        { key: "march", label: "March", question: "What theme may shape this month?" },
+        { key: "april", label: "April", question: "What theme may shape this month?" },
+        { key: "may", label: "May", question: "What theme may shape this month?" },
+        { key: "june", label: "June", question: "What theme may shape this month?" },
+        { key: "july", label: "July", question: "What theme may shape this month?" },
+        { key: "august", label: "August", question: "What theme may shape this month?" },
+        { key: "september", label: "September", question: "What theme may shape this month?" },
+        { key: "october", label: "October", question: "What theme may shape this month?" },
+        { key: "november", label: "November", question: "What theme may shape this month?" },
+        { key: "december", label: "December", question: "What theme may shape this month?" },
       ],
     },
   };
