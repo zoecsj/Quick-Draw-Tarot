@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Holding Your Spread | Quick Draw Tarot</title>
+    <link rel="stylesheet" href="/Quick-Draw-Tarot/main.css" />
+  </head>
+  <body class="velvet">
+    <header>
+      <nav class="nav">
+        <a href="/Quick-Draw-Tarot/">Quick Draw Tarot</a>
+        <div class="nav-links">
+          <a href="/Quick-Draw-Tarot/">Home</a>
+          <a href="/Quick-Draw-Tarot/spread/">Spreads</a>
+          <a href="/Quick-Draw-Tarot/cards/">Cards</a>
+          <a href="/Quick-Draw-Tarot/guide">How to Read</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="panel">
+          <span class="tag" id="spread-type-tag">Spread Hub</span>
+          <h1>Holding Your Spread</h1>
+          <p>This is where your reading gathers.</p>
+        </div>
+      </section>
+
+      <section class="section" id="spread-hub-state"></section>
+
+      <section class="section" id="spread-summary-section" hidden>
+        <div class="grid" id="spread-summary-grid"></div>
+      </section>
+    </main>
+
+    <script src="/Quick-Draw-Tarot/assets/spread.js"></script>
+    <script>
+      const BASE_PATH = window.TarotSpread.BASE_PATH;
+
+      function escapeHtml(value) {
+        return String(value || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/\"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function updateTag(spread) {
+        const tag = document.getElementById('spread-type-tag');
+        if (!spread) {
+          tag.textContent = 'Spread Hub';
+          return;
+        }
+
+        const spreadType = window.TarotSpread.SPREAD_TYPES[spread.type];
+        tag.textContent = spreadType ? spreadType.label : spread.type;
+      }
+
+      function clearSpreadAndRender(options) {
+        window.TarotSpread.clearSpread();
+        if (options && options.redirectTo) {
+          window.location.href = `${BASE_PATH}${options.redirectTo}`;
+          return;
+        }
+        render();
+      }
+
+      function bindCommonActions() {
+        const endReading = document.getElementById('end-reading');
+        if (endReading) {
+          endReading.addEventListener('click', function () {
+            clearSpreadAndRender({ redirectTo: "/" });
+          });
+        }
+
+        const clearSpread = document.getElementById('clear-spread-link');
+        if (clearSpread) {
+          clearSpread.addEventListener('click', function (event) {
+            event.preventDefault();
+            clearSpreadAndRender({});
+          });
+        }
+
+        const startAnother = document.getElementById('start-another-reading');
+        if (startAnother) {
+          startAnother.addEventListener('click', function () {
+            clearSpreadAndRender({ redirectTo: "/start/" });
+          });
+        }
+      }
+
+      function renderNoSpreadState() {
+        const hub = document.getElementById('spread-hub-state');
+        document.getElementById('spread-summary-section').hidden = true;
+
+        hub.innerHTML = `
+          <div class="panel">
+            <h2>No active spread</h2>
+            <p>Start a reading to begin.</p>
+            <div class="list">
+              <a class="button" href="${BASE_PATH}/">Return Home</a>
+              <a class="button secondary" href="${BASE_PATH}/start/">Start Reading</a>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderInProgressState(spread) {
+        const hub = document.getElementById('spread-hub-state');
+        document.getElementById('spread-summary-section').hidden = false;
+
+        const spreadType = window.TarotSpread.SPREAD_TYPES[spread.type];
+        const spreadLabel = spreadType ? spreadType.label : spread.type;
+        const progress = window.TarotSpread.getProgress(spread);
+        const next = window.TarotSpread.nextOpenPosition(spread);
+        const nextLabel = next ? window.TarotSpread.getPositionLabel(spread.type, next) : '—';
+
+        hub.innerHTML = `
+          <div class="panel">
+            <h2>Spread in Progress</h2>
+            <p><strong>${escapeHtml(spreadLabel)}</strong></p>
+            <p>Placed ${progress.placed} of ${progress.total}</p>
+            <p><strong>Next: ${escapeHtml(nextLabel)}</strong></p>
+            <p>Tap the card you want to place in this position.</p>
+            <div class="list">
+              <a class="button" href="${BASE_PATH}/cards/">Browse Cards</a>
+              <button class="button secondary" type="button" id="end-reading">End Reading</button>
+              <a href="#" id="clear-spread-link">Clear Spread</a>
+            </div>
+          </div>
+        `;
+
+        fetch(`${BASE_PATH}/data/cards.json`)
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (dataset) {
+            const details = {};
+            dataset.cards.forEach(function (card) {
+              details[card.slug] = {
+                description: card.description,
+                reflection: card.prompt,
+              };
+            });
+            renderSpreadSummary(spread, details);
+          });
+
+        bindCommonActions();
+      }
+
+      function renderSpreadSummary(spread, cardDetails) {
+        const container = document.getElementById('spread-summary-grid');
+        const positions = window.TarotSpread.getPositionList(spread);
+
+        container.innerHTML = positions
+          .map(function (position) {
+            const placed = spread.positions[position.key];
+            if (!placed) {
+              return `
+                <article class="card">
+                  <h3>${escapeHtml(position.label)}</h3>
+                  <p>${escapeHtml(position.question || '')}</p>
+                  <p>Empty — tap a card to add.</p>
+                </article>
+              `;
+            }
+
+            const details = cardDetails[placed.slug] || {};
+            const reflectionLine = details.reflection
+              ? `<p><strong>Reflection:</strong> ${escapeHtml(details.reflection)}</p>`
+              : '';
+
+            return `
+              <article class="card">
+                <h3>${escapeHtml(position.label)}</h3>
+                <p>${escapeHtml(position.question || '')}</p>
+                <a href="${BASE_PATH}${escapeHtml(placed.path)}">${escapeHtml(placed.title)}</a>
+                <p>${escapeHtml(details.description || '')}</p>
+                ${reflectionLine}
+              </article>
+            `;
+          })
+          .join('');
+      }
+
+      function renderCompletedState(spread) {
+        const hub = document.getElementById('spread-hub-state');
+        document.getElementById('spread-summary-section').hidden = false;
+
+        hub.innerHTML = `
+          <div class="panel">
+            <h2>The cards are laid before you.</h2>
+            <p>What’s next is up to you</p>
+            <div class="list">
+              <button class="button" type="button" id="start-another-reading">Start Another Reading</button>
+              <a class="button secondary" href="${BASE_PATH}/cards/">Browse Cards</a>
+              <a href="#" id="clear-spread-link">Clear Spread</a>
+            </div>
+          </div>
+        `;
+
+        fetch(`${BASE_PATH}/data/cards.json`)
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (dataset) {
+            const details = {};
+            dataset.cards.forEach(function (card) {
+              details[card.slug] = {
+                description: card.description,
+                reflection: card.prompt,
+              };
+            });
+            renderSpreadSummary(spread, details);
+          });
+
+        bindCommonActions();
+      }
+
+      function render() {
+        const spread = window.TarotSpread.getSpread();
+        updateTag(spread);
+
+        if (!spread) {
+          renderNoSpreadState();
+          return;
+        }
+
+        const progress = window.TarotSpread.getProgress(spread);
+        if (progress.placed < progress.total) {
+          renderInProgressState(spread);
+          return;
+        }
+
+        renderCompletedState(spread);
+      }
+
+      render();
+    </script>
+  </body>
+</html>

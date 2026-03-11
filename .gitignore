@@ -1,0 +1,10 @@
+# Generated browser artifacts / screenshots
+artifacts/
+
+# Do not commit ad-hoc uploaded logo binaries in this repo
+assets/logo.*
+assets/logo*.png
+assets/logo*.jpg
+assets/logo*.jpeg
+assets/logo*.webp
+assets/logo*.svg

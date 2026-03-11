@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seven of Cups | Tap Route</title>
+    <link rel="stylesheet" href="/Quick-Draw-Tarot/main.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="nav">
+        <a href="/Quick-Draw-Tarot/">Quick Draw Tarot</a>
+        <div class="nav-links">
+          <a href="/Quick-Draw-Tarot/">Home</a>
+          <a href="/Quick-Draw-Tarot/spread/">Spreads</a>
+          <a href="/Quick-Draw-Tarot/cards/">Cards</a>
+          <a href="/Quick-Draw-Tarot/guide">How to Read</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="panel">
+          <span class="tag">Reading Mode</span>
+          <h1>Seven of Cups</h1>
+          <div id="tap-route-panel"></div>
+          <p>Too many options—dreams, distractions, and the need for clarity.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="grid">
+          <article class="card">
+            <h3>Keywords</h3>
+            <p>Choices · Fantasy · Imagination · Temptation · Overwhelm</p>
+          </article>
+          <article class="card">
+            <h3>Upright</h3>
+            <p>Many paths are possible. Choose intentionally instead of drifting.</p>
+          </article>
+          <article class="card">
+            <h3>Reversed</h3>
+            <p>Clarity returns. Commit to one option and ground it in reality.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="panel">
+          <h2>Reflection</h2>
+          <p>What choice becomes obvious if you stop chasing the “perfect” option?</p>
+        </div>
+      </section>
+    </main>
+
+    <script type="application/json" id="card-meta">
+      { "slug": "seven-of-cups", "title": "Seven of Cups", "path": "/cards/seven-of-cups.html" }
+    </script>
+    <script src="/Quick-Draw-Tarot/assets/spread.js"></script>
+    <script>
+      window.TarotSpread.renderTapRoute("#tap-route-panel");
+    </script>
+  </body>
+</html>

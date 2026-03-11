@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quick Draw Tarot</title>
+    <link rel="stylesheet" href="/Quick-Draw-Tarot/main.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="nav">
+        <a href="/Quick-Draw-Tarot/">Quick Draw Tarot</a>
+        <div class="nav-links">
+          <a href="/Quick-Draw-Tarot/">Home</a>
+          <a href="/Quick-Draw-Tarot/spread/">Spreads</a>
+          <a href="/Quick-Draw-Tarot/cards/">Cards</a>
+          <a href="/Quick-Draw-Tarot/guide">How to Read</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-card">
+          <span class="tag">A Digital Ritual</span>
+          <h1>Quick Draw</h1>
+          <p>Touch the card. Open the veil. Listen.</p>
+          <p>This is reflection, not fortune-telling.</p>
+          <div class="list">
+            <a class="button" href="/Quick-Draw-Tarot/spread/">Begin a Reading</a>
+            <a class="button secondary" href="/Quick-Draw-Tarot/cards/">Enter the Cards</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="panel">
+          <h2>Choose a Spread</h2>
+          <div id="homepage-spread-picker"></div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <p>This deck reflects. You answer in action.</p>
+      </footer>
+    </main>
+
+    <script src="/Quick-Draw-Tarot/assets/spread.js"></script>
+    <script>
+      window.TarotSpread.renderSpreadPanel("#homepage-spread-picker");
+    </script>
+  </body>
+</html>

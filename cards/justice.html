@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Justice | Quick Draw Tarot</title>
+    <link rel="stylesheet" href="/Quick-Draw-Tarot/main.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="nav">
+        <a href="/Quick-Draw-Tarot/">Quick Draw Tarot</a>
+        <div class="nav-links">
+          <a href="/Quick-Draw-Tarot/">Home</a>
+          <a href="/Quick-Draw-Tarot/spread/">Spreads</a>
+          <a href="/Quick-Draw-Tarot/cards/">Cards</a>
+          <a href="/Quick-Draw-Tarot/guide">How to Read</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="panel">
+          <span class="tag">Major Arcana</span>
+          <h1>Justice</h1>
+          <p>Truth, accountability, and consequences that balance the scales.</p>
+          <div id="spread-panel"></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="grid">
+          <article class="card">
+            <h3>Keywords</h3>
+            <p>Fairness · Truth · Accountability · Integrity · Balance</p>
+          </article>
+          <article class="card">
+            <h3>Upright</h3>
+            <p>Make the honest call. Take responsibility and choose what’s fair.</p>
+          </article>
+          <article class="card">
+            <h3>Reversed</h3>
+            <p>Bias or avoidance is present. Correct course before it costs more.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="panel">
+          <h2>Reflection</h2>
+          <p>Where do you need to be brutally honest with yourself?</p>
+        </div>
+      </section>
+
+    </main>
+
+    <script type="application/json" id="card-meta">
+      { "slug": "justice", "title": "Justice", "path": "/cards/justice.html" }
+    </script>
+    <script src="/Quick-Draw-Tarot/assets/spread.js"></script>
+    <script>
+      window.TarotSpread.renderSpreadPanel("#spread-panel");
+    </script>
+  </body>
+</html>
