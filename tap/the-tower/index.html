@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Tower | Tap Route</title>
+    <link rel="stylesheet" href="/Quick-Draw-Tarot/main.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="nav">
+        <a href="/Quick-Draw-Tarot/">Quick Draw Tarot</a>
+        <div class="nav-links">
+          <a href="/Quick-Draw-Tarot/">Home</a>
+          <a href="/Quick-Draw-Tarot/spread/">Spreads</a>
+          <a href="/Quick-Draw-Tarot/cards/">Cards</a>
+          <a href="/Quick-Draw-Tarot/guide">How to Read</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="panel">
+          <span class="tag">Reading Mode</span>
+          <h1>The Tower</h1>
+          <div id="tap-route-panel"></div>
+          <p>Sudden truth—collapse that clears space for something real.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="grid">
+          <article class="card">
+            <h3>Keywords</h3>
+            <p>Upheaval · Revelation · Disruption · Truth · Breakthrough</p>
+          </article>
+          <article class="card">
+            <h3>Upright</h3>
+            <p>What’s unstable falls away. It’s painful, but it frees you.</p>
+          </article>
+          <article class="card">
+            <h3>Reversed</h3>
+            <p>You may be delaying the inevitable. Address cracks before they widen.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="panel">
+          <h2>Reflection</h2>
+          <p>What truth are you already aware of but resisting?</p>
+        </div>
+      </section>
+    </main>
+
+    <script type="application/json" id="card-meta">
+      { "slug": "the-tower", "title": "The Tower", "path": "/cards/the-tower.html" }
+    </script>
+    <script src="/Quick-Draw-Tarot/assets/spread.js"></script>
+    <script>
+      window.TarotSpread.renderTapRoute("#tap-route-panel");
+    </script>
+  </body>
+</html>

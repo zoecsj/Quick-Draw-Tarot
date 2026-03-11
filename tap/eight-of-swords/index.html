@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eight of Swords | Tap Route</title>
+    <link rel="stylesheet" href="/Quick-Draw-Tarot/main.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="nav">
+        <a href="/Quick-Draw-Tarot/">Quick Draw Tarot</a>
+        <div class="nav-links">
+          <a href="/Quick-Draw-Tarot/">Home</a>
+          <a href="/Quick-Draw-Tarot/spread/">Spreads</a>
+          <a href="/Quick-Draw-Tarot/cards/">Cards</a>
+          <a href="/Quick-Draw-Tarot/guide">How to Read</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="panel">
+          <span class="tag">Reading Mode</span>
+          <h1>Eight of Swords</h1>
+          <div id="tap-route-panel"></div>
+          <p>Feeling trapped—fear, self-doubt, and the illusion of no options.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="grid">
+          <article class="card">
+            <h3>Keywords</h3>
+            <p>Restriction · Fear · Self-doubt · Anxiety · Perspective</p>
+          </article>
+          <article class="card">
+            <h3>Upright</h3>
+            <p>You have more options than you think. Challenge the story that you’re powerless.</p>
+          </article>
+          <article class="card">
+            <h3>Reversed</h3>
+            <p>Release and new agency. Take one step to prove you’re not stuck.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="panel">
+          <h2>Reflection</h2>
+          <p>What belief is keeping you smaller than you need to be?</p>
+        </div>
+      </section>
+    </main>
+
+    <script type="application/json" id="card-meta">
+      { "slug": "eight-of-swords", "title": "Eight of Swords", "path": "/cards/eight-of-swords.html" }
+    </script>
+    <script src="/Quick-Draw-Tarot/assets/spread.js"></script>
+    <script>
+      window.TarotSpread.renderTapRoute("#tap-route-panel");
+    </script>
+  </body>
+</html>

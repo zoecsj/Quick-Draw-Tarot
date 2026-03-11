@@ -7,6 +7,8 @@ const BASE_PATH = '/Quick-Draw-Tarot';
 const ROOT = path.resolve(__dirname, '..');
 const dataPath = path.join(ROOT, 'data', 'cards.json');
 const cardsDir = path.join(ROOT, 'cards');
+const tapDir = path.join(ROOT, 'tap');
+const startDir = path.join(ROOT, 'start');
 
 function escapeHtml(value) {
   return String(value)
@@ -17,18 +19,8 @@ function escapeHtml(value) {
     .replace(/'/g, '&#39;');
 }
 
-function cardPageHtml(card) {
-  const keywords = card.keywords.join(' · ');
-  return `<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>${escapeHtml(card.title)} | Quick Draw Tarot</title>
-    <link rel="stylesheet" href="${BASE_PATH}/main.css" />
-  </head>
-  <body>
-    <header>
+function navHtml() {
+  return `<header>
       <nav class="nav">
         <a href="${BASE_PATH}/">Quick Draw Tarot</a>
         <div class="nav-links">
@@ -38,19 +30,18 @@ function cardPageHtml(card) {
           <a href="${BASE_PATH}/guide">How to Read</a>
         </div>
       </nav>
-    </header>
+    </header>`;
+}
 
-    <main>
-      <section class="section">
-        <div class="panel">
-          <span class="tag">${escapeHtml(card.tag)}</span>
-          <h1>${escapeHtml(card.title)}</h1>
-          <p>${escapeHtml(card.description)}</p>
-          <div id="spread-panel"></div>
-        </div>
-      </section>
+function cardMetaScript(card) {
+  return `<script type="application/json" id="card-meta">
+      { "slug": "${escapeHtml(card.slug)}", "title": "${escapeHtml(card.title)}", "path": "/cards/${escapeHtml(card.slug)}.html" }
+    </script>`;
+}
 
-      <section class="section">
+function meaningBlocks(card) {
+  const keywords = card.keywords.join(' · ');
+  return `<section class="section">
         <div class="grid">
           <article class="card">
             <h3>Keywords</h3>
@@ -72,16 +63,106 @@ function cardPageHtml(card) {
           <h2>Reflection</h2>
           <p>${escapeHtml(card.prompt)}</p>
         </div>
+      </section>`;
+}
+
+function cardPageHtml(card) {
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${escapeHtml(card.title)} | Quick Draw Tarot</title>
+    <link rel="stylesheet" href="${BASE_PATH}/main.css" />
+  </head>
+  <body>
+    ${navHtml()}
+
+    <main>
+      <section class="section">
+        <div class="panel">
+          <span class="tag">${escapeHtml(card.tag)}</span>
+          <h1>${escapeHtml(card.title)}</h1>
+          <p>${escapeHtml(card.description)}</p>
+          <div id="spread-panel"></div>
+        </div>
       </section>
+
+      ${meaningBlocks(card)}
 
     </main>
 
-    <script type="application/json" id="card-meta">
-      { "slug": "${escapeHtml(card.slug)}", "title": "${escapeHtml(card.title)}", "path": "/cards/${escapeHtml(card.slug)}.html" }
-    </script>
+    ${cardMetaScript(card)}
     <script src="${BASE_PATH}/assets/spread.js"></script>
     <script>
       window.TarotSpread.renderSpreadPanel("#spread-panel");
+    </script>
+  </body>
+</html>
+`;
+}
+
+function tapPageHtml(card) {
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${escapeHtml(card.title)} | Tap Route</title>
+    <link rel="stylesheet" href="${BASE_PATH}/main.css" />
+  </head>
+  <body>
+    ${navHtml()}
+
+    <main>
+      <section class="section">
+        <div class="panel">
+          <span class="tag">Reading Mode</span>
+          <h1>${escapeHtml(card.title)}</h1>
+          <div id="tap-route-panel"></div>
+          <p>${escapeHtml(card.description)}</p>
+        </div>
+      </section>
+
+      ${meaningBlocks(card)}
+    </main>
+
+    ${cardMetaScript(card)}
+    <script src="${BASE_PATH}/assets/spread.js"></script>
+    <script>
+      window.TarotSpread.renderTapRoute("#tap-route-panel");
+    </script>
+  </body>
+</html>
+`;
+}
+
+function startPageHtml() {
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Start Reading | Quick Draw Tarot</title>
+    <link rel="stylesheet" href="${BASE_PATH}/main.css" />
+  </head>
+  <body>
+    ${navHtml()}
+
+    <main>
+      <section class="section">
+        <div class="panel">
+          <h1>Start Reading</h1>
+          <p>Choose your spread and begin when ready.</p>
+          <div id="start-spread-picker"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="${BASE_PATH}/assets/spread.js"></script>
+    <script>
+      window.TarotSpread.clearSpread();
+      window.TarotSpread.renderSpreadPanel("#start-spread-picker");
     </script>
   </body>
 </html>
@@ -136,17 +217,7 @@ function cardsIndexHtml(cards) {
     <link rel="stylesheet" href="${BASE_PATH}/main.css" />
   </head>
   <body>
-    <header>
-      <nav class="nav">
-        <a href="${BASE_PATH}/">Quick Draw Tarot</a>
-        <div class="nav-links">
-          <a href="${BASE_PATH}/">Home</a>
-          <a href="${BASE_PATH}/spread/">Spreads</a>
-          <a href="${BASE_PATH}/cards/">Cards</a>
-          <a href="${BASE_PATH}/guide">How to Read</a>
-        </div>
-      </nav>
-    </header>
+    ${navHtml()}
 
     <main>
       <section class="section">
@@ -195,6 +266,7 @@ function cardsIndexHtml(cards) {
 }
 
 function writeFile(targetPath, content) {
+  fs.mkdirSync(path.dirname(targetPath), { recursive: true });
   fs.writeFileSync(targetPath, content, 'utf8');
 }
 
@@ -203,13 +275,14 @@ function run() {
   const cards = dataset.cards;
 
   for (const card of cards) {
-    const pagePath = path.join(cardsDir, `${card.slug}.html`);
-    writeFile(pagePath, cardPageHtml(card));
+    writeFile(path.join(cardsDir, `${card.slug}.html`), cardPageHtml(card));
+    writeFile(path.join(tapDir, card.slug, 'index.html'), tapPageHtml(card));
   }
 
   writeFile(path.join(cardsDir, 'index.html'), cardsIndexHtml(cards));
+  writeFile(path.join(startDir, 'index.html'), startPageHtml());
 
-  console.log(`Generated ${cards.length} card pages and cards/index.html`);
+  console.log(`Generated ${cards.length} card pages, ${cards.length} tap routes, cards/index.html, and start/index.html`);
 }
 
 run();

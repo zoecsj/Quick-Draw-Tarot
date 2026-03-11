@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Strength | Tap Route</title>
+    <link rel="stylesheet" href="/Quick-Draw-Tarot/main.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="nav">
+        <a href="/Quick-Draw-Tarot/">Quick Draw Tarot</a>
+        <div class="nav-links">
+          <a href="/Quick-Draw-Tarot/">Home</a>
+          <a href="/Quick-Draw-Tarot/spread/">Spreads</a>
+          <a href="/Quick-Draw-Tarot/cards/">Cards</a>
+          <a href="/Quick-Draw-Tarot/guide">How to Read</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="panel">
+          <span class="tag">Reading Mode</span>
+          <h1>Strength</h1>
+          <div id="tap-route-panel"></div>
+          <p>Quiet courage, compassionate control, and power guided by heart.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="grid">
+          <article class="card">
+            <h3>Keywords</h3>
+            <p>Courage · Patience · Compassion · Inner strength · Confidence</p>
+          </article>
+          <article class="card">
+            <h3>Upright</h3>
+            <p>Stay steady and kind. True strength is consistent, not loud.</p>
+          </article>
+          <article class="card">
+            <h3>Reversed</h3>
+            <p>Doubt or reactivity is draining you. Regroup and rebuild confidence gently.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="panel">
+          <h2>Reflection</h2>
+          <p>Where can you respond softly instead of proving something?</p>
+        </div>
+      </section>
+    </main>
+
+    <script type="application/json" id="card-meta">
+      { "slug": "strength", "title": "Strength", "path": "/cards/strength.html" }
+    </script>
+    <script src="/Quick-Draw-Tarot/assets/spread.js"></script>
+    <script>
+      window.TarotSpread.renderTapRoute("#tap-route-panel");
+    </script>
+  </body>
+</html>

@@ -710,6 +710,91 @@
   }
 
 
+  function renderTapRoute(selector, cardMetaOverride) {
+    const container = document.querySelector(selector);
+    if (!container) return;
+
+    const cardMeta = cardMetaOverride || getCardMetaFromPage();
+    if (!cardMeta || !cardMeta.slug) return;
+
+    const spread = getSpread();
+    if (!spread || !nextOpenPosition(spread)) {
+      window.location.replace(`${BASE_PATH}/cards/${cardMeta.slug}.html`);
+      return;
+    }
+
+    const panelState = getPanelState(selector);
+    const spreadKey = `${spread.type}:${spread.createdAt}:${cardMeta.slug}`;
+    if (panelState.lastSpreadKey !== spreadKey) {
+      panelState.lastSpreadKey = spreadKey;
+      panelState.placedLabel = "";
+      panelState.justPlaced = false;
+      panelState.message = "";
+      panelState.placing = false;
+    }
+
+    const progress = getProgress(spread);
+    const open = nextOpenPosition(spread);
+    const nextLabel = open ? getPositionLabel(spread.type, open) : "—";
+
+    let html = '<div class="panel">';
+    html += '<h2>Reading in Progress</h2>';
+    html += `<p><strong>Next Position:</strong> ${escapeHtml(nextLabel)}</p>`;
+    html += `<p>Placed ${progress.placed} of ${progress.total}</p>`;
+
+    if (panelState.justPlaced && panelState.placedLabel) {
+      html += `<button type="button" class="button" data-action="place" disabled>✓ Laid in ${escapeHtml(panelState.placedLabel)}</button>`;
+    } else {
+      html += `<button type="button" class="button" data-action="place"${panelState.placing ? ' disabled' : ''}>Lay This Card</button>`;
+    }
+
+    if (panelState.message) {
+      html += `<p class="nfc-progress">${escapeHtml(panelState.message)}</p>`;
+    }
+
+    html += '</div>';
+    container.innerHTML = html;
+
+    const placeButton = container.querySelector('[data-action="place"]');
+    if (!placeButton || panelState.justPlaced || panelState.placing) return;
+
+    placeButton.addEventListener('click', function () {
+      if (panelState.placing) return;
+      panelState.placing = true;
+
+      const result = addCardToSpread(cardMeta);
+      if (!result.ok) {
+        panelState.placing = false;
+        panelState.justPlaced = false;
+        panelState.placedLabel = "";
+        panelState.message = result.message;
+        renderTapRoute(selector, cardMeta);
+        return;
+      }
+
+      const latestSpread = getSpread();
+      const latestProgress = getProgress(latestSpread);
+      const isComplete = latestProgress.placed >= latestProgress.total;
+
+      panelState.placing = false;
+      panelState.justPlaced = true;
+      panelState.placedLabel = getPositionLabel(spread.type, result.position);
+      panelState.message = 'Ready for your next tap.';
+
+      if (isComplete) {
+        runCompletionOverlay(selector, function () {
+          window.location.href = `${BASE_PATH}/spread/`;
+        });
+        return;
+      }
+
+      renderTapRoute(selector, cardMeta);
+      showPlacementToast(selector, ['It rests there.']);
+    });
+  }
+
+
+
   window.TarotSpread = {
     BASE_PATH,
     STORAGE_KEY,
@@ -726,6 +811,7 @@
     getProgress,
     hasPlacedCards,
     renderSpreadPanel,
+    renderTapRoute,
     capitalize,
   };
 })();
