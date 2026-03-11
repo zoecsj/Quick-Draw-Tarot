@@ -163,7 +163,7 @@ function startPageHtml() {
     <script src="${BASE_PATH}/assets/spread.js"></script>
     <script>
       window.TarotSpread.clearSpread();
-      window.TarotSpread.renderSpreadPanel("#start-spread-picker");
+      window.TarotSpread.renderStartSpreadPicker("#start-spread-picker");
     </script>
   </body>
 </html>

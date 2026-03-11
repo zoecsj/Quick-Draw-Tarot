@@ -83,6 +83,17 @@
     "year-ahead": { title: "Year Ahead", helper: "For seasonal themes and long-term focus." },
   };
 
+  const START_SPREAD_OPTIONS = [
+    { type: "daily", title: "Daily Reading", count: "1 Card", helper: "For grounding and focus." },
+    { type: "past-present-future", title: "Past · Present · Future", count: "3 Cards", helper: "For understanding momentum." },
+    { type: "hermit", title: "Hermit’s Guidance", count: "4 Cards", helper: "For self-reflection and inner clarity." },
+    { type: "clarity", title: "Clarity Spread", count: "4 Cards", helper: "When you feel overwhelmed." },
+    { type: "decision", title: "Decision Spread", count: "4 Cards", helper: "When choosing between two paths." },
+    { type: "shadow-work", title: "Shadow Work", count: "4 Cards", helper: "When something triggers you or repeats." },
+    { type: "year-ahead", title: "Year Ahead", count: "12 Cards", helper: "For seasonal themes and long-term focus." },
+  ];
+
+
   function getSpreadType(type) {
     return SPREAD_TYPES[type] || null;
   }
@@ -523,6 +534,95 @@
     state.completionTimerId = setTimeout(finish, 1500);
   }
 
+  function renderStartSpreadPicker(selector) {
+    const container = document.querySelector(selector);
+    if (!container) return;
+
+    const panelState = getPanelState(selector);
+    const selectedType = panelState.form.type || "past-present-future";
+    const beginDisabled = selectedType === "decision" && !decisionFieldsValid(panelState);
+
+    let html = '<div class="grid spread-picker-grid">';
+
+    START_SPREAD_OPTIONS.forEach(function (item) {
+      const selectedClass = selectedType === item.type ? " selected" : "";
+      html += `<button type="button" class="card spread-option${selectedClass}" data-action="pick-spread" data-spread-type="${item.type}"><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.count)}</p><p>${escapeHtml(item.helper)}</p></button>`;
+    });
+
+    html += '</div>';
+
+    if (selectedType === "decision") {
+      html += '<div class="list">';
+      html += '<label for="decision-option-a">Option A</label>';
+      html += `<input id="decision-option-a" type="text" value="${escapeHtml(panelState.form.optionA)}" />`;
+      html += '<label for="decision-option-b">Option B</label>';
+      html += `<input id="decision-option-b" type="text" value="${escapeHtml(panelState.form.optionB)}" />`;
+      if (panelState.validationMessage) {
+        html += `<p class="nfc-progress">${escapeHtml(panelState.validationMessage)}</p>`;
+      }
+      html += '</div>';
+    }
+
+    html += '<div class="list">';
+    html += `<button type="button" class="button" data-action="begin"${beginDisabled ? ' disabled' : ''}>Begin Reading</button>`;
+    html += '</div>';
+
+    container.innerHTML = html;
+
+    const beginReading = function () {
+      if (panelState.phase === "transition") return;
+      if (!decisionFieldsValid(panelState)) {
+        panelState.validationMessage = "Please fill Option A and Option B.";
+        renderStartSpreadPicker(selector);
+        return;
+      }
+
+      panelState.validationMessage = "";
+      runGroundingTransition(selector, function () {
+        const started = startSpread(panelState.form.type, buildStartMeta(panelState));
+        if (!started) {
+          renderStartSpreadPicker(selector);
+          return;
+        }
+        window.location.href = `${BASE_PATH}/spread/`;
+      });
+    };
+
+    const pickerButtons = container.querySelectorAll('[data-action="pick-spread"]');
+    pickerButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        const pickedType = button.getAttribute("data-spread-type");
+        const wasSelected = panelState.form.type === pickedType;
+        panelState.form.type = pickedType;
+        panelState.validationMessage = "";
+
+        if (wasSelected) {
+          readFormFromDom(container, panelState);
+          beginReading();
+          return;
+        }
+
+        renderStartSpreadPicker(selector);
+      });
+    });
+
+    container.addEventListener("input", function () {
+      readFormFromDom(container, panelState);
+      panelState.validationMessage = "";
+      const beginButton = container.querySelector('[data-action="begin"]');
+      if (beginButton) beginButton.disabled = panelState.form.type === "decision" && !decisionFieldsValid(panelState);
+    });
+
+    const beginButton = container.querySelector('[data-action="begin"]');
+    if (beginButton) {
+      beginButton.addEventListener("click", function () {
+        readFormFromDom(container, panelState);
+        beginReading();
+      });
+    }
+  }
+
+
   function renderSpreadPanel(selector) {
     const container = document.querySelector(selector);
     if (!container) return;
@@ -815,6 +915,7 @@
     getProgress,
     hasPlacedCards,
     renderSpreadPanel,
+    renderStartSpreadPicker,
     renderTapRoute,
     capitalize,
   };

@@ -61,8 +61,8 @@
 
       function clearSpreadAndRender(options) {
         window.TarotSpread.clearSpread();
-        if (options && options.redirectHome) {
-          window.location.href = `${BASE_PATH}/`;
+        if (options && options.redirectTo) {
+          window.location.href = `${BASE_PATH}${options.redirectTo}`;
           return;
         }
         render();
@@ -72,7 +72,7 @@
         const endReading = document.getElementById('end-reading');
         if (endReading) {
           endReading.addEventListener('click', function () {
-            clearSpreadAndRender({ redirectHome: true });
+            clearSpreadAndRender({ redirectTo: "/" });
           });
         }
 
@@ -80,14 +80,14 @@
         if (clearSpread) {
           clearSpread.addEventListener('click', function (event) {
             event.preventDefault();
-            clearSpreadAndRender({ redirectHome: false });
+            clearSpreadAndRender({});
           });
         }
 
         const startAnother = document.getElementById('start-another-reading');
         if (startAnother) {
           startAnother.addEventListener('click', function () {
-            clearSpreadAndRender({ redirectHome: true });
+            clearSpreadAndRender({ redirectTo: "/start/" });
           });
         }
       }
@@ -98,8 +98,8 @@
 
         hub.innerHTML = `
           <div class="panel">
-            <h2>No active spread.</h2>
-            <p>Start a reading on the home page, then tap each card to place it.</p>
+            <h2>No active spread</h2>
+            <p>Start a reading to begin.</p>
             <div class="list">
               <a class="button" href="${BASE_PATH}/">Return Home</a>
               <a class="button secondary" href="${BASE_PATH}/start/">Start Reading</a>
