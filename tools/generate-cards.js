@@ -152,8 +152,9 @@ function startPageHtml() {
     <main>
       <section class="section">
         <div class="panel">
-          <h1>Start Reading</h1>
-          <p>Choose your spread and begin when ready.</p>
+          <h1>Quick Draw</h1>
+          <p>Start a reading.</p>
+          <p>Choose a spread below, then tap each card to place it.</p>
           <div id="start-spread-picker"></div>
         </div>
       </section>

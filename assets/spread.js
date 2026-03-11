@@ -789,7 +789,11 @@
       }
 
       renderTapRoute(selector, cardMeta);
-      showPlacementToast(selector, ['It rests there.']);
+      if (latestProgress.total > 2 && latestProgress.placed >= 2) {
+        showPlacementToast(selector, ['Continue']);
+      } else {
+        showPlacementToast(selector, ['It rests there.', 'Continue when ready.']);
+      }
     });
   }
 
